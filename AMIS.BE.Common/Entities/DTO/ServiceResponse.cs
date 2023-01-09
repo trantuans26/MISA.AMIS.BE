@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MISA.AMIS.API
+namespace MISA.AMIS.Common
 {
     /// <summary>
     /// Model phản hồi người dùng
@@ -15,7 +15,7 @@ namespace MISA.AMIS.API
         /// <summary>
         /// Thành công hoặc thất bại
         /// </summary>
-        public bool Success { get; set; }
+        public int Success { get; set; }
 
         /// <summary>
         /// Data response khi thành công hoặc thất bại

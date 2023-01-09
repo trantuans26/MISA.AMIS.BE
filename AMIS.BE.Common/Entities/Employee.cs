@@ -3,35 +3,33 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
-namespace MISA.AMIS.API
+namespace MISA.AMIS.Common
 {
     public class Employee
     {
         /// <summary>
         /// ID nhân viên
         /// </summary>
-        [Key]
+        [PrimaryKey]
         public Guid? EmployeeID { get; set; }
 
         /// <summary>
         /// Mã nhân viên
         /// </summary>
-        [Required(ErrorMessage = "Mã nhân viên không được để trống")]
-        [MaxLength(20)]
-        [DuplicateCode]
+        [IsNotNullOrEmpty("Mã nhân viên không được để trống")]
+        [Code]
         public string? EmployeeCode { get; set; }
 
         /// <summary>
         /// Tên nhân viên
         /// </summary>
-        [Required(ErrorMessage = "Tên nhân viên không được để trống")]
-        [MaxLength(255)]
+        [IsNotNullOrEmpty("Tên nhân viên không được để trống")]
         public string? EmployeeName { get; set; }
 
         /// <summary>
         /// ID phòng ban
         /// </summary>
-        [Required(ErrorMessage = "ID đơn vị không được để trống")]
+        [IsNotNullOrEmpty("ID đơn vị không được để trống")]
         public Guid? DepartmentID { get; set; }
 
         /// <summary>

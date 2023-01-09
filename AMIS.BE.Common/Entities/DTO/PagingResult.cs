@@ -1,4 +1,4 @@
-﻿namespace MISA.AMIS.API
+﻿namespace MISA.AMIS.Common
 {
     /// <summary>
     /// Kết quả trả về của API Lấy danh sách nhân viên theo bộ lọc và phân trang

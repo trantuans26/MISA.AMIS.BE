@@ -1,4 +1,4 @@
-﻿namespace MISA.AMIS.API
+﻿namespace MISA.AMIS.Common
 {
     public enum AMISErrorCode
     {
@@ -23,13 +23,13 @@
         DeleteFailed = 3,
 
         /// <summary>
-        /// Không tìm thấy
+        /// Dữ liệu đầu vào không hợp lệ
         /// </summary>
-        NotFound = 4,
+        InvalidInput = 4,
 
         /// <summary>
         /// Trùng mã
         /// </summary>
-        InvalidInput = 1062,
+        DuplicateCode = 1062
     }
 }

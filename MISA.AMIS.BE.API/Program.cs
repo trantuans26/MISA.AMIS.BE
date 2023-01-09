@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MISA.AMIS.BL;
+using MISA.AMIS.DL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,16 @@ builder.Services.AddCors(p => p.AddPolicy("MyCors", build =>
     build.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
 }));
 
+// Dependency Injection 
+builder.Services.AddScoped(typeof(IBaseDL<>), typeof(BaseDL<>));
+builder.Services.AddScoped<IEmployeeBL, EmployeeBL>();
+builder.Services.AddScoped<IEmployeeDL, EmployeeDL>();
+builder.Services.AddScoped<IConnectionDL, MySqlConnectionDL>();
+
+// Lấy dữ liệu connection string từ file appsettings.Development.json
+DataContext.ConnectionString = builder.Configuration.GetConnectionString("MySQL");
+
+// Tắt trả về object result mặc định của model state
 builder.Services.Configure<ApiBehaviorOptions>(options => {
     options.SuppressModelStateInvalidFilter = true;
 });

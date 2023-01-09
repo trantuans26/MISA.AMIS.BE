@@ -1,4 +1,4 @@
-﻿namespace MISA.AMIS.API
+﻿namespace MISA.AMIS.Common
 {
     public enum Gender
     {

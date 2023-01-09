@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MISA.AMIS.BL
@@ -21,7 +22,6 @@ namespace MISA.AMIS.BL
         {
             _employeeDL = employeeDL;
         }
-
         #endregion
 
         #region Method
@@ -51,10 +51,25 @@ namespace MISA.AMIS.BL
             foreach (var property in properties)
             {
                 var propertyValue = property.GetValue(employee);
-                var IsNotNullOrEmptyAttribute = (IsNotNullOrEmptyAttribute?)Attribute.GetCustomAttribute(property, typeof(IsNotNullOrEmptyAttribute));
-                if (IsNotNullOrEmptyAttribute != null && string.IsNullOrEmpty(propertyValue?.ToString()))
+
+                var isNotNullOrEmptyAttribute = (IsNotNullOrEmptyAttribute?)Attribute.GetCustomAttribute(property, typeof(IsNotNullOrEmptyAttribute));
+                if (isNotNullOrEmptyAttribute != null && string.IsNullOrEmpty(propertyValue?.ToString()))
                 {
-                    errorMessages.Add(IsNotNullOrEmptyAttribute.ErrorMessage);
+                    errorMessages.Add(isNotNullOrEmptyAttribute.ErrorMessage);
+                }
+
+                var codeAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
+                if (codeAttribute != null && propertyValue?.ToString()?.Length > 20)
+                {
+                    errorMessages.Add("Độ dài mã nhỏ hơn hoặc bằng 20 ký tự");
+                }
+
+                var emailAttribute = (EmailAttribute?)Attribute.GetCustomAttribute(property, typeof(EmailAttribute));
+                if (emailAttribute != null && propertyValue != null)
+                {
+                    string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
+                    if (Regex.IsMatch(propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
+                        errorMessages.Add("Độ dài mã nhỏ hơn hoặc bằng 20 ký tự");
                 }
             }
             if (errorMessages.Count > 0)
@@ -121,7 +136,7 @@ namespace MISA.AMIS.BL
 
             if (validateResult.Success == (int)StatusResponse.Done)
             {
-                var duplicateCode = this.CheckDuplicateCode(newEmployee.EmployeeCode, null);
+                var duplicateCode = CheckDuplicateCode(newEmployee.EmployeeCode, null);
 
                 if (duplicateCode == true)
                 {

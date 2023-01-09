@@ -1,12 +1,7 @@
-﻿using Dapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using MISA.AMIS.API.Controllers;
+﻿using Microsoft.AspNetCore.Mvc;
 using MISA.AMIS.BL;
 using MISA.AMIS.Common;
 using MISA.AMIS.Common.Resourcses;
-using MISA.AMIS.DL;
-using MySqlConnector;
 
 namespace MISA.AMIS.API
 {
@@ -15,7 +10,7 @@ namespace MISA.AMIS.API
     public class EmployeesController : BasesController<Employee>
     {
         #region Field
-        private readonly IEmployeeBL _employeeBL;
+        private IEmployeeBL _employeeBL;
         #endregion
 
         #region Constructor

@@ -169,7 +169,8 @@
     <comment>Link đến trang mô tả chi tiết lỗi khi sửa</comment>
   </data>
   <data name="Proc_CheckDuplicateCode" xml:space="preserve">
-    <value>Proc_{0}_CheckDuplicateCode</value>
+    <value>Proc_{0}_CheckDuplicateCode </value>
+    <comment>Tên proc chung cho kiểm tra mã trùng</comment>
   </data>
   <data name="Proc_DeleteByID" xml:space="preserve">
     <value>Proc_{0}_DeleteByID</value>

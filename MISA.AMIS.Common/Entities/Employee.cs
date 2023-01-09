@@ -90,6 +90,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Địa chỉ Email
         /// </summary>
+        [Email]
         public string? Email { get; set; }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace MISA.AMIS.DL
     public class EmployeeDL : BaseDL<Employee>, IEmployeeDL
     {
         #region Field
-        private readonly IConnectionDL _connectionDL;
+        private IConnectionDL _connectionDL;
         #endregion
 
         #region Constructor
@@ -23,6 +23,7 @@ namespace MISA.AMIS.DL
             _connectionDL = connectionDL;
         }
         #endregion
+
         /// <summary>
         /// API kiểm tra mã trùng
         /// </summary>
@@ -44,9 +45,9 @@ namespace MISA.AMIS.DL
             parameters.Add($"${typeof(Employee).Name}Code", employeeCode);
 
             // Khởi tạo kết nối đến DB
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (var mySqlConnection = _connectionDL.InitConnection(connectionString))
             {
-                var DuplicateCode = mySqlConnection.QueryFirstOrDefault<Employee>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                var DuplicateCode = _connectionDL.QueryFirstOrDefault<Employee>(mySqlConnection, storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
 
                 if (DuplicateCode != null)
                     return true;
@@ -193,10 +194,10 @@ namespace MISA.AMIS.DL
             var numberOfAffectedRows = 0;
 
             // Khởi tạo kết nối đến DB
-            using (var mySqlConnnector = _connectionDL.InitConnection(connectionString))
+            using (var mySqlConnection = _connectionDL.InitConnection(connectionString))
             {
                 // Gọi vào DB để chạy stored ở trên
-                numberOfAffectedRows = _connectionDL.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                numberOfAffectedRows = _connectionDL.Execute(mySqlConnection, storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
             }
 
             return numberOfAffectedRows;

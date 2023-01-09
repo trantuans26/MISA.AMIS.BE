@@ -178,7 +178,7 @@ namespace MISA.AMIS.Common.Resourcses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Proc_{0}_CheckDuplicateCode.
+        ///   Looks up a localized string similar to Proc_{0}_CheckDuplicateCode .
         /// </summary>
         public static string Proc_CheckDuplicateCode {
             get {

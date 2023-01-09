@@ -21,6 +21,16 @@
     }
 
     /// <summary>
+    /// Attribute dùng để xác định 1 property là email
+    /// </summary>
+    /// Modified by: TTTuan 6/1/2023
+    [AttributeUsage(AttributeTargets.Property)]
+    public class EmailAttribute : Attribute
+    {
+
+    }
+
+    /// <summary>
     /// Attribure dùng để xác định 1 property không được để trống
     /// </summary>    
     /// Modified by: TTTuan 6/1/2023

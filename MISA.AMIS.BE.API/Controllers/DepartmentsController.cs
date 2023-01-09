@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using MISA.AMIS.Common;
 using MISA.AMIS.BL;
-using MISA.AMIS.API.Controllers;
 
 namespace MISA.AMIS.API
 {
@@ -12,7 +11,7 @@ namespace MISA.AMIS.API
     public class DepartmentsController : BasesController<Department>
     {
         #region Constructor
-        public DepartmentsController(DepartmentBL baseBL) : base(baseBL)
+        public DepartmentsController(IBaseBL<Department> baseBL) : base(baseBL)
         {
         }
         #endregion

@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using MISA.AMIS.Common;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,13 +12,19 @@ namespace MISA.AMIS.DL
 {
     public class TestConnectionDL : IConnectionDL
     {
-        public int Execute(string storedProcedureName, DynamicParameters parameters, CommandType commandType)
+        public int Execute(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, CommandType commandType)
         {
-            throw new NotImplementedException();
+            return 1;
         }
 
         public IDbConnection InitConnection(string connectionString)
         {
+            return new MySqlConnection();
+        }
+
+        public T QueryFirstOrDefault<T>(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, CommandType commandType)
+        {
+
             return default;
         }
     }

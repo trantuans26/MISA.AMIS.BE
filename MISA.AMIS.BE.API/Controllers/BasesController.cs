@@ -3,7 +3,7 @@ using MISA.AMIS.BL;
 using MISA.AMIS.Common.Resourcses;
 using MISA.AMIS.Common;
 
-namespace MISA.AMIS.API.Controllers
+namespace MISA.AMIS.API
 {
     [Route("api/v1/[controller]")]
     [ApiController]

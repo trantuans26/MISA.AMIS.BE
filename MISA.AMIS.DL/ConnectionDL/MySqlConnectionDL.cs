@@ -7,29 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+using MISA.AMIS.Common;
 
 namespace MISA.AMIS.DL
 {
     public class MySqlConnectionDL : IConnectionDL
     {
-        #region Field
-        private IDbConnection _mySqlConnection;
-        #endregion
-
-        #region Method
-        public int Execute(string storedProcedureName, DynamicParameters parameters, CommandType commandType)
+        public int Execute(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, CommandType commandType)
         {
-            var numberOfAffectedRows = _mySqlConnection.Execute(storedProcedureName, parameters, null, null, commandType);
-
-            return numberOfAffectedRows;
+            return cnn.Execute(storedProcedureName, parameters, null, null, commandType);
         }
 
         public IDbConnection InitConnection(string connectionString)
         {
-            _mySqlConnection = new MySqlConnection(DataContext.ConnectionString);
+            return new MySqlConnection(connectionString);
+        }
 
-            return _mySqlConnection;
-        } 
-        #endregion
+        public T QueryFirstOrDefault<T>(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, CommandType commandType)
+        {
+            return cnn.QueryFirstOrDefault<T>(storedProcedureName, parameters, null, null, commandType);
+
+        }
     }
 }

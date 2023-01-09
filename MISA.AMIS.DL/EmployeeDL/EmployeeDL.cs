@@ -193,7 +193,7 @@ namespace MISA.AMIS.DL
             var numberOfAffectedRows = 0;
 
             // Khởi tạo kết nối đến DB
-            using (_connectionDL.InitConnection(connectionString))
+            using (var mySqlConnnector = _connectionDL.InitConnection(connectionString))
             {
                 // Gọi vào DB để chạy stored ở trên
                 numberOfAffectedRows = _connectionDL.Execute(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);

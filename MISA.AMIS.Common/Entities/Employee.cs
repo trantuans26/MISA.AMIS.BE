@@ -10,31 +10,37 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// ID nhân viên
         /// </summary>
-        [Key]
         [PrimaryKey]
         public Guid? EmployeeID { get; set; }
 
         /// <summary>
         /// Mã nhân viên
         /// </summary>
-        [NotEmpty("Mã nhân viên không được để trống")]
-        [Required(ErrorMessage = "Mã nhân viên không được để trống")]
-        [DuplicateCode]
+        [IsNotNullOrEmpty("Mã nhân viên không được để trống")]
+        [Code]
         public string? EmployeeCode { get; set; }
 
         /// <summary>
         /// Tên nhân viên
         /// </summary>
-        [Required(ErrorMessage = "Tên nhân viên không được để trống")]
-        [NotEmpty("Tên nhân viên không được để trống")]
+        [IsNotNullOrEmpty("Tên nhân viên không được để trống")]
         public string? EmployeeName { get; set; }
 
         /// <summary>
         /// ID phòng ban
         /// </summary>
-        [Required(ErrorMessage = "ID đơn vị không được để trống")]
-        [NotEmpty("ID đơn vị không được để trống")]
+        [IsNotNullOrEmpty("ID đơn vị không được để trống")]
         public Guid? DepartmentID { get; set; }
+
+        /// <summary>
+        /// Mã phòng ban
+        /// </summary>
+        public string? DepartmentCode { get; set; }
+
+        /// <summary>
+        /// Tên phòng ban
+        /// </summary>
+        public string? DepartmentName { get; set; }
 
         /// <summary>
         /// Chức vụ
@@ -44,12 +50,12 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Ngày sinh
         /// </summary>
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Giới tính
         /// </summary>
-        public Gender Gender { get; set; }
+        public Gender? Gender { get; set; }
 
         /// <summary>
         /// Số CCCD
@@ -59,7 +65,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Ngày cấp CCCD
         /// </summary>
-        public DateTime IdentityDate { get; set; }
+        public DateTime? IdentityDate { get; set; }
 
         /// <summary>
         /// Nơi cấp CCCD

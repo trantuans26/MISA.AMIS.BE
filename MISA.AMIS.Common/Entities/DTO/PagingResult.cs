@@ -8,11 +8,16 @@
         /// <summary>
         /// Danh sách nhân viên
         /// </summary>
-        public List<Employee> Data { get; set; }
+        public List<Employee>? Data { get; set; }
 
         /// <summary>
         /// Tổng số bản ghi
         /// </summary>
-        public long TotalCount { get; set; }
+        public long? TotalRecord { get; set; }
+
+        /// <summary>
+        /// Tổng số trang
+        /// </summary>
+        public int? TotalPage { get; set; }
     }
 }

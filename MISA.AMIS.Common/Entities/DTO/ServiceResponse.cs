@@ -15,7 +15,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Thành công hoặc thất bại
         /// </summary>
-        public bool Success { get; set; }
+        public int Success { get; set; }
 
         /// <summary>
         /// Data response khi thành công hoặc thất bại

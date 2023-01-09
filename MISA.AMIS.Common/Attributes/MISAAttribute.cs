@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MISA.AMIS.Common
+﻿namespace MISA.AMIS.Common
 {
     /// <summary>
-    /// Class định nghĩa attribute là khoá chính
+    /// Attribute dùng để xác định 1 property là khóa chính 
     /// </summary>
-    /// TTTuan (1/3/2023)
+    /// Modified by: TTTuan 6/1/2023
     [AttributeUsage(AttributeTargets.Property)]
     public class PrimaryKeyAttribute : Attribute
     {
@@ -13,27 +11,59 @@ namespace MISA.AMIS.Common
     }
 
     /// <summary>
-    /// Class định nghĩa attribute không được bỏ trống
+    /// Attribute dùng để xác định 1 property là mã
     /// </summary>
-    /// TTTuan (1/3/2023)
+    /// Modified by: TTTuan 6/1/2023
     [AttributeUsage(AttributeTargets.Property)]
-    public class NotEmptyAttribute : Attribute 
+    public class CodeAttribute : Attribute
     {
-        public string MessageError;
 
-        public NotEmptyAttribute(string messageError) 
-        {
-            MessageError = messageError;
-        }
     }
 
     /// <summary>
-    /// Class định nghĩa attribute bị trùng mã
-    /// </summary>
-    /// TTTuan (1/3/2023)
+    /// Attribure dùng để xác định 1 property không được để trống
+    /// </summary>    
+    /// Modified by: TTTuan 6/1/2023
     [AttributeUsage(AttributeTargets.Property)]
-    public class DuplicateCodeAttribute : Attribute
+    public class IsNotNullOrEmptyAttribute : Attribute
     {
+        #region Field
+        /// <summary>
+        /// Message lỗi trả về cho client
+        /// </summary>
+        /// Modified by: TTTuan 6/1/2023
+        public string ErrorMessage;
+        #endregion
 
+        #region Constructor
+        public IsNotNullOrEmptyAttribute(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
+        #endregion
+
+        /// <summary>
+        /// Attribute tạo tên cột phục vụ cho việc Export Excel
+        /// </summary> 
+        /// Modified by: TTTuan 6/1/2023
+        [AttributeUsage(AttributeTargets.Property)]
+        public class ExcelColumnNameAttribute : Attribute
+        {
+            /// <summary>
+            /// Tên cột
+            /// </summary>
+            /// Modified by: TTTuan 6/1/2023
+            public string ColumnName { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="columnName">Tên cột</param>
+            /// Modified by: TTTuan 6/1/2023
+            public ExcelColumnNameAttribute(string columnName)
+            {
+                ColumnName = columnName;
+            }
+        }
     }
 }

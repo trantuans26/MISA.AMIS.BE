@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MISA.AMIS.DL.ConnectionDL
+namespace MISA.AMIS.DL
 {
     public class TestConnectionDL : IConnectionDL
     {

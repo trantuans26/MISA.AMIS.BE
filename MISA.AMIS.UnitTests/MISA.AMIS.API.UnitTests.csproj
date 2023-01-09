@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MISA.AMIS.BE.API\MISA.AMIS.API.csproj" />
+    <ProjectReference Include="..\MISA.AMIS.Common\MISA.AMIS.Common.csproj" />
   </ItemGroup>
 
 </Project>

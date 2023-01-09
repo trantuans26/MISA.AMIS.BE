@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AMIS.BE.Common\MISA.AMIS.Common.csproj" />
+    <ProjectReference Include="..\MISA.AMIS.Common\MISA.AMIS.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -20,16 +20,16 @@
         /// <summary>
         /// Xoá thất bại
         /// </summary>
-        DeleteFailed = 2,
+        DeleteFailed = 3,
 
         /// <summary>
-        /// Không tìm thấy
+        /// Dữ liệu đầu vào không hợp lệ
         /// </summary>
-        NotFound = 2,
+        InvalidInput = 4,
 
         /// <summary>
         /// Trùng mã
         /// </summary>
-        DuplicateCode = 1062,
+        DuplicateCode = 1062
     }
 }

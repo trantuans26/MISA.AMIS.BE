@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,16 +8,16 @@
 
   <ItemGroup>
     <Compile Update="Resourcses\AMISResources.Designer.cs">
+      <DependentUpon>AMISResources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>AMISResources.resx</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Resourcses\AMISResources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AMISResources.Designer.cs</LastGenOutput>
+      <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
   </ItemGroup>
 

@@ -9,18 +9,21 @@ namespace MISA.AMIS.DL
     public interface IBaseDL<T>
     {
         /// <summary>
-        /// Check trùng mã
+        /// Kiểm tra mã trùng
         /// </summary>
-        /// <returns>Bản ghi có mã nhân viên trùng</returns>
+        /// <param name="recordCode"></param>
+        /// <param name="recordID"></param>
+        /// <returns>bool kiểm tra có trùng hay không</returns>
         /// Modified by: TTTuan 5/1/2023
-        //public T CheckDuplicateCode(string recordCode, Guid? id);
+        public bool CheckDuplicateCode(string recordCode, Guid? recordID);
 
         /// <summary>
-        /// Xóa 1 bản ghi
+        /// Xoá 1 bản ghi
         /// </summary>
-        /// <returns></returns>
+        /// <param name="recordID"></param>
+        /// <returns>Số bản ghi bị ảnh hưởng</returns>
         /// Modified by: TTTuan 5/1/2023
-        //public int DeleteRecordByID(Guid recordID);
+        public int DeleteRecordByID(Guid recordID);
 
         /// <summary>
         /// Lấy danh sách tất cả bản ghi
@@ -34,7 +37,7 @@ namespace MISA.AMIS.DL
         /// </summary>
         /// <returns>Mã bản ghi mới</returns>
         /// Modified by: TTTuan 5/1/2023
-        //public string GetNewCode();
+        public string GetNewCode();
 
         /// <summary>
         /// API lấy thông tin chi tiết của 1 bản ghi theo ID
@@ -45,17 +48,20 @@ namespace MISA.AMIS.DL
         public T GetRecordByID(Guid recordID);
 
         /// <summary>
-        /// Thêm mới 1 bản ghi
+        /// Thêm mới một bản ghi
         /// </summary>
-        /// <returns></returns>
+        /// <param name="newRecord"></param>
+        /// <returns>Trả về số dòng bị ảnh hưởng</returns>
         /// Modified by: TTTuan 5/1/2023
-        //public Guid InsertRecord(T obj);
+        public int InsertRecord(T newRecord);
 
         /// <summary>
-        /// Sửa 1 bản ghi
+        /// Sửa một bản ghi
         /// </summary>
-        /// <returns></returns>
+        /// <param name="recordID"></param>
+        /// <param name="record"></param>
+        /// <returns>Trả về số dòng bị ảnh hưởng</returns>
         /// Modified by: TTTuan 5/1/2023
-        //public Guid UpdateRecordByID(Guid id, T obj);
+        public int UpdateRecordByID(Guid recordID, T record);
     }
 }

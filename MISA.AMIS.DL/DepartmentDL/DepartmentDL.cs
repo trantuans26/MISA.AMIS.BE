@@ -10,5 +10,15 @@ namespace MISA.AMIS.BL
 {
     public class DepartmentDL : BaseDL<Department>, IDepartmentDL
     {
+        #region Field
+        private IConnectionDL _connectionDL;
+        #endregion
+
+        #region Constructor
+        public DepartmentDL(IConnectionDL connectionDL) :base(connectionDL) 
+        {
+            _connectionDL = connectionDL;
+        }
+        #endregion
     }
 }

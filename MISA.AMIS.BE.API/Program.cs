@@ -29,7 +29,7 @@ builder.Services.AddScoped<IConnectionDL, MySqlConnectionDL>();
 builder.Services.AddScoped<EmployeesController, EmployeesController>();
 
 // Lấy dữ liệu connection string từ file appsettings.Development.json
-DataContext.ConnectionString = builder.Configuration.GetConnectionString("MySQL");
+DataContext.ConnectionString = builder.Configuration.GetConnectionString("MySql");
 
 // Tắt trả về object result mặc định của model state
 builder.Services.Configure<ApiBehaviorOptions>(options => {

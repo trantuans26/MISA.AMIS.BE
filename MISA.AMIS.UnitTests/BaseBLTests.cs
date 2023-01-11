@@ -8,10 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MISA.AMIS.DL;
+using MISA.AMIS.BL.UnitTests;
+using NSubstitute;
 
 namespace MISA.AMIS.API.UnitTests
 {
-    public class EmployeeTests
+    public class BaseBLTests
     {
         #region Field
         private IEmployeeDL _employeeDL = new EmployeeDL(new TestConnectionDL());
@@ -23,13 +25,11 @@ namespace MISA.AMIS.API.UnitTests
         [Test]
         public void InsertEmployee_Employee_ReturnsSuccessStatus()
         {
-            // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            IEmployeeBL testEmployeeBL = new EmployeeBL(_employeeDL);
-
+            // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn
             Employee e = new()
             {
                 EmployeeCode = "NV-1111",
-                EmployeeName = "Trần Tháo Tuấn",
+                EmployeeName = "Trần Thái Tuấn",
                 DepartmentID = new Guid("7686595d-16d5-33b3-0080-e8e2a817c80e"),
                 DepartmentCode = null,
                 DepartmentName = null,
@@ -37,13 +37,18 @@ namespace MISA.AMIS.API.UnitTests
                 DateOfBirth = DateTime.Now
             };
 
+            var fakeBaseDL = Substitute.For<IBaseDL<Employee>>();
+            fakeBaseDL.InsertRecord(e).Returns(1);
+
+            var baseBL = new BaseBL<Employee>(fakeBaseDL);
+
             int expectedResult = (int)StatusResponse.Done;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = testEmployeeBL.InsertEmployee(e);
+            ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
-            Assert.AreEqual(expectedResult, actualResult.Success);
+            Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
         }
 
         /// <summary>
@@ -53,8 +58,6 @@ namespace MISA.AMIS.API.UnitTests
         public void InsertEmployee_EmptyInput_ReturnsInvalidInputStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            IEmployeeBL testEmployeeBL = new EmployeeBL(_employeeDL);
-
             Employee e = new()
             {
                 EmployeeCode = "",
@@ -66,10 +69,15 @@ namespace MISA.AMIS.API.UnitTests
                 DateOfBirth = DateTime.Now
             };
 
+            var fakeBaseDL = Substitute.For<IBaseDL<Employee>>();
+            fakeBaseDL.InsertRecord(e).Returns(1);
+
+            var baseBL = new BaseBL<Employee>(fakeBaseDL);
+
             int expectedResult = (int) StatusResponse.Invalid;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = testEmployeeBL.InsertEmployee(e);
+            ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.AreEqual(expectedResult, actualResult.Success);
@@ -79,11 +87,9 @@ namespace MISA.AMIS.API.UnitTests
         /// Validate email sai định dạng
         /// </summary>
         [Test]
-        public void InsertEmployee_InvalidEmail_ReturnsInvalidEmailStatus()
+        public void InsertEmployee_InvalidEmail_ReturnsInvalidInputStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            IEmployeeBL testEmployeeBL = new EmployeeBL(_employeeDL);
-
             Employee e = new()
             {
                 EmployeeCode = "4444",
@@ -96,10 +102,15 @@ namespace MISA.AMIS.API.UnitTests
                 Email = "hihi"
             };
 
+            var fakeBaseDL = Substitute.For<IBaseDL<Employee>>();
+            fakeBaseDL.InsertRecord(e).Returns(1);
+
+            var baseBL = new BaseBL<Employee>(fakeBaseDL);
+
             int expectedResult = (int)StatusResponse.Invalid;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = testEmployeeBL.InsertEmployee(e);
+            ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.AreEqual(expectedResult, actualResult.Success);
@@ -112,9 +123,6 @@ namespace MISA.AMIS.API.UnitTests
         public void InsertEmployee_InvalidCodeLength_ReturnsInvalidInputStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            IEmployeeBL testEmployeeBL = new EmployeeBL(_employeeDL);
-
             Employee e = new()
             {
                 EmployeeCode = "NV022222222222222222222222222222222222222222222222222022222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222",
@@ -126,10 +134,15 @@ namespace MISA.AMIS.API.UnitTests
                 DateOfBirth = DateTime.Now
             };
 
+            var fakeBaseDL = Substitute.For<IBaseDL<Employee>>();
+            fakeBaseDL.InsertRecord(e).Returns(1);
+
+            var baseBL = new BaseBL<Employee>(fakeBaseDL);
+
             int expectedResult = (int)StatusResponse.Invalid;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = testEmployeeBL.InsertEmployee(e);
+            ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.AreEqual(expectedResult, actualResult.Success);
@@ -142,9 +155,6 @@ namespace MISA.AMIS.API.UnitTests
         public void InsertEmployee_DuplicateCode_ReturnsDuplicateCodeStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            IEmployeeDL _employeeDL = new EmployeeDL(new MySqlConnectionDL());
-            IEmployeeBL testEmployeeBL = new EmployeeBL(_employeeDL);
-
             Employee e = new()
             {
                 EmployeeCode = "NV-08449",
@@ -156,13 +166,19 @@ namespace MISA.AMIS.API.UnitTests
                 DateOfBirth = DateTime.Now
             };
 
+            var fakeBaseDL = Substitute.For<IBaseDL<Employee>>();
+            fakeBaseDL.InsertRecord(e).Returns(1);
+            fakeBaseDL.CheckDuplicateCode("NV-08449", null).Returns(true);
+
+            var baseBL = new BaseBL<Employee>(fakeBaseDL);
+
             ServiceResponse expectedResult = new()
             {
                 Success = (int)StatusResponse.DuplicateCode,
             };
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = testEmployeeBL.InsertEmployee(e);
+            ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.AreEqual(expectedResult.Success, actualResult.Success);

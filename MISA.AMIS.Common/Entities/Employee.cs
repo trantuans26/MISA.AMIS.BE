@@ -17,7 +17,7 @@ namespace MISA.AMIS.Common
         /// Mã nhân viên
         /// </summary>
         [IsNotNullOrEmpty("Mã nhân viên không được để trống")]
-        [Code]
+        [Code("Kích thước mã phải nhỏ hơn hoặc bằng 20 ký tự")]
         public string? EmployeeCode { get; set; }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Địa chỉ Email
         /// </summary>
-        [Email]
+        [Email("Email không đúng định dạng")]
         public string? Email { get; set; }
 
         /// <summary>
@@ -126,7 +126,11 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Người sửa gần nhất
         /// </summary>
-        public string? ModifiedBy { get; set; } 
+        public string? ModifiedBy 
+        {
+            get;
+            set;
+        } 
 
     }
 }

@@ -70,7 +70,7 @@ namespace MISA.AMIS.Common.Resourcses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server không tìm thấy bất kì tài nguyên nào, gọi procedure trong database thất bại.
+        ///   Looks up a localized string similar to Server không tìm thấy bất kì tài nguyên nào, bản ghi không tồn tại.
         /// </summary>
         public static string DevMsg_DeleteFailed {
             get {
@@ -115,7 +115,7 @@ namespace MISA.AMIS.Common.Resourcses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server không tìm thấy bất kì tài nguyên nào, gọi procedure trong database thất bại.
+        ///   Looks up a localized string similar to Server không tìm thấy bất kì tài nguyên nào, bản ghi không tồn tại.
         /// </summary>
         public static string DevMsg_UpdateFailed {
             get {

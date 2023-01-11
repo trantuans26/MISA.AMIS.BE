@@ -14,7 +14,7 @@ namespace MISA.AMIS.BL
     public class EmployeeBL : BaseBL<Employee>, IEmployeeBL
     {
         #region Field
-        private IEmployeeDL _employeeDL;
+        private readonly IEmployeeDL _employeeDL;
         #endregion
 
         #region Constructor
@@ -26,31 +26,19 @@ namespace MISA.AMIS.BL
 
         #region Method
         /// <summary>
-        /// Kiểm tra mã trùng
-        /// </summary>
-        /// <param name="employeeCode"></param>
-        /// <param name="employeeID"></param>
-        /// <returns>Trả về boolean khi trùng hoặc không</returns>
-        /// Created by: TTTuan (23/12/2022)
-        private bool CheckDuplicateCode(string? employeeCode, Guid? employeeID)
-        {
-            return _employeeDL.CheckDuplicateCode(employeeCode, employeeID);
-        }
-
-        /// <summary>
         /// Validate dữ liệu đầu vào
         /// </summary>
-        /// <param name="employee"></param>
+        /// <param name="record"></param>
         /// <returns>Đối tượng ServiceResponse mỗ tả thành công hay thất bại</returns>
         /// Created by: TTTuan (23/12/2022)
-        static private ServiceResponse ValidateData(Employee employee)
+        public static ServiceResponse ValidateData<T>(T record)
         {
             var errorMessages = new List<string>();
 
-            var properties = typeof(Employee).GetProperties();
+            var properties = typeof(T).GetProperties();
             foreach (var property in properties)
             {
-                var propertyValue = property.GetValue(employee);
+                var propertyValue = property.GetValue(record);
 
                 var isNotNullOrEmptyAttribute = (IsNotNullOrEmptyAttribute?)Attribute.GetCustomAttribute(property, typeof(IsNotNullOrEmptyAttribute));
                 if (isNotNullOrEmptyAttribute != null && string.IsNullOrEmpty(propertyValue?.ToString()))
@@ -58,18 +46,18 @@ namespace MISA.AMIS.BL
                     errorMessages.Add(isNotNullOrEmptyAttribute.ErrorMessage);
                 }
 
-                var codeAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
-                if (codeAttribute != null && propertyValue?.ToString()?.Length > 20)
+                var codeLengthAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
+                if (codeLengthAttribute != null && propertyValue?.ToString()?.Length > 20)
                 {
-                    errorMessages.Add("Độ dài mã nhỏ hơn hoặc bằng 20 ký tự");
+                    errorMessages.Add(codeLengthAttribute.ErrorMessage);
                 }
 
                 var emailAttribute = (EmailAttribute?)Attribute.GetCustomAttribute(property, typeof(EmailAttribute));
-                if (emailAttribute != null && propertyValue != null)
+                if (emailAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
                 {
                     string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-                    if (Regex.IsMatch(propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
-                        errorMessages.Add("Độ dài mã nhỏ hơn hoặc bằng 20 ký tự");
+                    if (!Regex.IsMatch(propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
+                        errorMessages.Add(emailAttribute.ErrorMessage);
                 }
             }
             if (errorMessages.Count > 0)
@@ -91,17 +79,6 @@ namespace MISA.AMIS.BL
         }
 
         /// <summary>
-        /// API Xóa 1 nhân viên theo ID
-        /// </summary>
-        /// <param name="employeeID">ID của nhân viên cần xóa</param>
-        /// <returns>ID của nhân viên vừa xóa</returns>
-        /// Created by: TTTuan (23/12/2022)
-        public int DeleteEmployeeByID(Guid employeeID)
-        {
-            return _employeeDL.DeleteEmployeeByID(employeeID);
-        }
-
-        /// <summary>
         /// API Lấy danh sách thông tin nhân viên theo bộ lọc và phân trang
         /// </summary>
         /// <param name="keyword">Mã nhân viên, tên nhân viên, số điện thoại</param>
@@ -112,127 +89,6 @@ namespace MISA.AMIS.BL
         {
             return _employeeDL.GetEmployeesByFilter(keyword, pageSize, pageNumber);
         }
-
-        /// <summary>
-        /// API Lấy mã nhân viên mới
-        /// </summary>
-        /// <returns>Mã nhân viên mới</returns>
-        /// Modified by: TTTuan (23/12/2022)
-        public string GetNewEmployeeCode()
-        {
-            return _employeeDL.GetNewEmployeeCode();
-        }
-
-        /// <summary>
-        /// API Thêm mới 1 nhân viên
-        /// </summary>
-        /// <param name="newEmployee">Đối tượng nhân viên cần thêm mới</param>
-        /// <returns>ID của nhân viên vừa thêm mới</returns>
-        /// Created by: TTTuan (23/12/2022)
-        public ServiceResponse InsertEmployee(Employee newEmployee)
-        {
-            // Validate
-            var validateResult = ValidateData(newEmployee);
-
-            if (validateResult.Success == (int)StatusResponse.Done)
-            {
-                var duplicateCode = CheckDuplicateCode(newEmployee.EmployeeCode, null);
-
-                if (duplicateCode == true)
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.DuplicateCode,
-                        Data = new ErrorResult()
-                        {
-                            ErrorCode = AMISErrorCode.DuplicateCode,
-                            DevMsg = AMISResources.DevMsg_DuplicateCode,
-                            UserMsg = AMISResources.UserMsg_DuplicateCode,
-                            MoreInfo = AMISResources.MoreInfo_DuplicateCode
-                        }
-                    };
-                }
-
-                var numberOfAffectedRows = _employeeDL.InsertEmployee(newEmployee);
-
-                if (numberOfAffectedRows > 0)
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.Done,
-                    };
-                }
-                else
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.Failed,
-                    };
-                }
-            }
-            else
-            {
-                return validateResult;
-            }
-        }
-
-        /// <summary>
-        /// API Sửa 1 nhân viên theo ID
-        /// </summary>
-        /// <param name="employeeID">ID của nhân viên cần sửa</param>
-        /// <param name="employee">Đối tượng nhân viên cần sửa</param>
-        /// <returns>ID của nhân viên vừa sửa</returns>
-        /// Created by: TTTuan (23/12/2022)
-        public ServiceResponse UpdateEmployeeByID(Guid employeeID, Employee employee)
-        {
-            // Validate
-            var validateResult = ValidateData(employee);
-            
-            if (validateResult.Success == (int)StatusResponse.Done)
-            {
-                var duplicateCode = this.CheckDuplicateCode(employee.EmployeeCode, null);
-
-                if (duplicateCode != false) duplicateCode = !this.CheckDuplicateCode(employee.EmployeeCode, employeeID);
-
-                if (duplicateCode == true)
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int) StatusResponse.DuplicateCode,
-                        Data = new ErrorResult()
-                        {
-                            ErrorCode = AMISErrorCode.DuplicateCode,
-                            DevMsg = AMISResources.DevMsg_DuplicateCode,
-                            UserMsg = AMISResources.UserMsg_DuplicateCode,
-                            MoreInfo = AMISResources.MoreInfo_DuplicateCode
-                        }
-                    };
-                }
-
-                var numberOfAffectedRows = _employeeDL.UpdateEmployeeByID(employeeID, employee);
-
-                if (numberOfAffectedRows > 0)
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.Done,
-                    };
-                }
-                else
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.Failed,
-                    };
-                }
-            } 
-            else
-            {
-                return validateResult;
-            }
-        } 
-
-
         #endregion
     }
 }

@@ -121,7 +121,7 @@
     <value>Trần Thái Tuấn</value>
   </data>
   <data name="DevMsg_DeleteFailed" xml:space="preserve">
-    <value>Server không tìm thấy bất kì tài nguyên nào, gọi procedure trong database thất bại</value>
+    <value>Server không tìm thấy bất kì tài nguyên nào, bản ghi không tồn tại</value>
     <comment>Thông báo cho dev khi xóa bản ghi thất bại</comment>
   </data>
   <data name="DevMsg_DuplicateCode" xml:space="preserve">
@@ -141,7 +141,7 @@
     <comment>Thông báo cho dev khi dữ liệu đầu vào không hợp lệ</comment>
   </data>
   <data name="DevMsg_UpdateFailed" xml:space="preserve">
-    <value>Server không tìm thấy bất kì tài nguyên nào, gọi procedure trong database thất bại</value>
+    <value>Server không tìm thấy bất kì tài nguyên nào, bản ghi không tồn tại</value>
     <comment>Thông báo cho dev khi sửa bản ghi thất bại</comment>
   </data>
   <data name="MoreInfo_DeleteFailed" xml:space="preserve">

@@ -9,7 +9,7 @@ namespace MISA.AMIS.DL
     public class DataContext
     {
         /// <summary>
-        ///  Chuỗi kết nối tới MySQL
+        ///  Chuỗi kết nối tới MySql
         /// </summary>
         /// Created by : TTTuan (05/01/2023)
         public static string ConnectionString;

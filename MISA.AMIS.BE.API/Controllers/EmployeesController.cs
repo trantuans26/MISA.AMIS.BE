@@ -10,7 +10,7 @@ namespace MISA.AMIS.API
     public class EmployeesController : BasesController<Employee>
     {
         #region Field
-        private IEmployeeBL _employeeBL;
+        private readonly IEmployeeBL _employeeBL;
         #endregion
 
         #region Constructor

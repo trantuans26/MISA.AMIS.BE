@@ -193,7 +193,7 @@ namespace MISA.AMIS.DL
 
             foreach (var property in properties)
             {
-                string propertyName = property.Name;
+                var propertyName = property.Name;
 
                 object? propertyValue;
 

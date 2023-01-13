@@ -15,7 +15,7 @@ namespace MISA.AMIS.DL
         /// <param name="recordID"></param>
         /// <returns>bool kiểm tra có trùng hay không</returns>
         /// Modified by: TTTuan 5/1/2023
-        public bool CheckDuplicateCode(string recordCode, Guid? recordID);
+        public bool CheckDuplicateCode(string? recordCode, Guid? recordID);
 
         /// <summary>
         /// Xoá 1 bản ghi

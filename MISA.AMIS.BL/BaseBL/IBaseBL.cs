@@ -10,6 +10,15 @@ namespace MISA.AMIS.BL
     public interface IBaseBL<T>
     {
         /// <summary>
+        /// Kiểm tra mã trùng
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="recordID"></param>
+        /// <returns>bool kiểm tra có trùng hay không</returns>
+        /// Modified by: TTTuan 5/1/2023
+        public ServiceResponse CheckDuplicateCode(Guid? recordID, T record);
+
+        /// <summary>
         /// Xoá 1 bản ghi
         /// </summary>
         /// <param name="recordID"></param>

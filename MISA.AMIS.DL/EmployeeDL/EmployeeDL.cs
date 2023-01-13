@@ -47,9 +47,9 @@ namespace MISA.AMIS.DL
             parameters.Add("$PageNumber", pageNumber);
 
             // Khai báo kết quả trả về
-            int count;
+            var count = 0;
             var list = new List<Employee>();
-            int totalPage;
+            var totalPage = 0;
 
             // Khởi tạo kết nối đến DB
             using (var mySqlConnection = new MySqlConnection(connectionString))

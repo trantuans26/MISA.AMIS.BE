@@ -26,19 +26,51 @@ namespace MISA.AMIS.BL
 
         #region Method
         /// <summary>
+        /// Kiểm tra mã trùng
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <param name="employeeID"></param>
+        /// <returns>bool kiểm tra có trùng hay không</returns>
+        /// Modified by: TTTuan 5/1/2023
+        public override ServiceResponse CheckDuplicateCode(Guid? employeeID, Employee employee)
+        {
+            var duplicateCode = _employeeDL.CheckDuplicateCode(employee.EmployeeCode, null);
+         
+            if(duplicateCode == true && employeeID != null)
+                duplicateCode = !_employeeDL.CheckDuplicateCode(employee.EmployeeCode, employeeID);
+
+            if (duplicateCode == true)
+            {
+                return new ServiceResponse
+                {
+                    Success = (int)StatusResponse.DuplicateCode,
+                    Data = new ErrorResult()
+                    {
+                        ErrorCode = AMISErrorCode.DuplicateCode,
+                        DevMsg = AMISResources.DevMsg_DuplicateCode,
+                        UserMsg = AMISResources.UserMsg_DuplicateCode,
+                        MoreInfo = AMISResources.MoreInfo_DuplicateCode
+                    }
+                };
+            }
+
+            return new ServiceResponse { Success = (int)StatusResponse.Done };
+        }
+
+        /// <summary>
         /// Validate dữ liệu đầu vào
         /// </summary>
         /// <param name="record"></param>
         /// <returns>Đối tượng ServiceResponse mỗ tả thành công hay thất bại</returns>
         /// Created by: TTTuan (23/12/2022)
-        public static ServiceResponse ValidateData<T>(T record)
+        public override ServiceResponse ValidateData(Employee employee)
         {
             var errorMessages = new List<string>();
 
-            var properties = typeof(T).GetProperties();
+            var properties = typeof(Employee).GetProperties();
             foreach (var property in properties)
             {
-                var propertyValue = property.GetValue(record);
+                var propertyValue = property.GetValue(employee);
 
                 var isNotNullOrEmptyAttribute = (IsNotNullOrEmptyAttribute?)Attribute.GetCustomAttribute(property, typeof(IsNotNullOrEmptyAttribute));
                 if (isNotNullOrEmptyAttribute != null && string.IsNullOrEmpty(propertyValue?.ToString()))
@@ -53,9 +85,9 @@ namespace MISA.AMIS.BL
                 }
 
                 var emailAttribute = (EmailAttribute?)Attribute.GetCustomAttribute(property, typeof(EmailAttribute));
-                if (emailAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
+                if (emailAttribute != null && propertyValue != null && propertyValue?.ToString()?.Trim().Length > 0)
                 {
-                    string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
+                    var regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
                     if (!Regex.IsMatch(propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
                         errorMessages.Add(emailAttribute.ErrorMessage);
                 }

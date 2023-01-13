@@ -8,25 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MISA.AMIS.DL;
-using MISA.AMIS.BL.UnitTests;
 using NSubstitute;
 
 namespace MISA.AMIS.API.UnitTests
 {
     public class BaseBLTests
     {
-        #region Field
-        private IEmployeeDL _employeeDL = new EmployeeDL(new TestConnectionDL());
-        #endregion
-
         /// <summary>
         /// Thêm nhân viên thành công
         /// </summary>
         [Test]
-        public void InsertEmployee_Employee_ReturnsSuccessStatus()
+        public void InsertRecorrd_Employee_ReturnsSuccessStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn
-            Employee e = new()
+            var e = new Employee()
             {
                 EmployeeCode = "NV-1111",
                 EmployeeName = "Trần Thái Tuấn",
@@ -42,7 +37,7 @@ namespace MISA.AMIS.API.UnitTests
 
             var baseBL = new BaseBL<Employee>(fakeBaseDL);
 
-            int expectedResult = (int)StatusResponse.Done;
+            var expectedResult = (int)StatusResponse.Done;
 
             // Act - Gọi vào hàm cần test
             ServiceResponse actualResult = baseBL.InsertRecord(e);
@@ -55,10 +50,10 @@ namespace MISA.AMIS.API.UnitTests
         /// Validate input trống
         /// </summary>
         [Test]
-        public void InsertEmployee_EmptyInput_ReturnsInvalidInputStatus()
+        public void InsertRecord_EmptyInput_ReturnsInvalidInputStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            Employee e = new()
+            var e = new Employee()
             {
                 EmployeeCode = "",
                 EmployeeName = "",
@@ -74,23 +69,23 @@ namespace MISA.AMIS.API.UnitTests
 
             var baseBL = new BaseBL<Employee>(fakeBaseDL);
 
-            int expectedResult = (int) StatusResponse.Invalid;
+            var expectedResult = (int) StatusResponse.Invalid;
 
             // Act - Gọi vào hàm cần test
             ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
-            Assert.AreEqual(expectedResult, actualResult.Success);
+            Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
         }
 
         /// <summary>
         /// Validate email sai định dạng
         /// </summary>
         [Test]
-        public void InsertEmployee_InvalidEmail_ReturnsInvalidInputStatus()
+        public void InsertRecord_InvalidEmail_ReturnsInvalidInputStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            Employee e = new()
+            var e = new Employee()
             {
                 EmployeeCode = "4444",
                 EmployeeName = "444",
@@ -107,23 +102,23 @@ namespace MISA.AMIS.API.UnitTests
 
             var baseBL = new BaseBL<Employee>(fakeBaseDL);
 
-            int expectedResult = (int)StatusResponse.Invalid;
+            var expectedResult = (int)StatusResponse.Invalid;
 
             // Act - Gọi vào hàm cần test
             ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
-            Assert.AreEqual(expectedResult, actualResult.Success);
+            Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
         }
 
         /// <summary>
         /// Số lớn hơn giá trị cho phép
         /// </summary>
         [Test]
-        public void InsertEmployee_InvalidCodeLength_ReturnsInvalidInputStatus()
+        public void InsertRecord_InvalidCodeLength_ReturnsInvalidInputStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
-            Employee e = new()
+            var e = new Employee()
             {
                 EmployeeCode = "NV022222222222222222222222222222222222222222222222222022222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222",
                 EmployeeName = "Trần Thái Tuấn",
@@ -139,20 +134,20 @@ namespace MISA.AMIS.API.UnitTests
 
             var baseBL = new BaseBL<Employee>(fakeBaseDL);
 
-            int expectedResult = (int)StatusResponse.Invalid;
+            var expectedResult = (int)StatusResponse.Invalid;
 
             // Act - Gọi vào hàm cần test
             ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
-            Assert.AreEqual(expectedResult, actualResult.Success);
+            Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
         }
 
         /// <summary>
         /// Mã nhân viên bị trùng
         /// </summary>
         [Test]
-        public void InsertEmployee_DuplicateCode_ReturnsDuplicateCodeStatus()
+        public void InsertRecord_DuplicateCode_ReturnsDuplicateCodeStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn 
             Employee e = new()
@@ -172,16 +167,13 @@ namespace MISA.AMIS.API.UnitTests
 
             var baseBL = new BaseBL<Employee>(fakeBaseDL);
 
-            ServiceResponse expectedResult = new()
-            {
-                Success = (int)StatusResponse.DuplicateCode,
-            };
+            var expectedResult = (int)StatusResponse.DuplicateCode;
 
             // Act - Gọi vào hàm cần test
             ServiceResponse actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
-            Assert.AreEqual(expectedResult.Success, actualResult.Success);
+            Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
         }
     }
 }

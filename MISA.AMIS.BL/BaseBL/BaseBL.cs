@@ -13,13 +13,25 @@ namespace MISA.AMIS.BL
     public class BaseBL<T> : IBaseBL<T>
     {
         #region Field
-        private IBaseDL<T> _baseDL;
+        private readonly IBaseDL<T> _baseDL;
         #endregion
 
         #region Constructor
         public BaseBL(IBaseDL<T> baseDL)
         {
             _baseDL = baseDL;
+        }
+
+        /// <summary>
+        /// Kiểm tra mã trùng
+        /// </summary>
+        /// <param name="record"></param>
+        /// <param name="recordID"></param>
+        /// <returns>bool kiểm tra có trùng hay không</returns>
+        /// Modified by: TTTuan 5/1/2023
+        public virtual ServiceResponse CheckDuplicateCode(Guid? recordID, T record)
+        {
+            return new ServiceResponse { Success = (int)StatusResponse.Done };
         }
         #endregion
 
@@ -79,53 +91,30 @@ namespace MISA.AMIS.BL
 
             if (validateResult.Success == (int)StatusResponse.Done)
             {
-                var properties = typeof(T).GetProperties();
+                var checkDuplicateCode = CheckDuplicateCode(null, newRecord);
 
-                var duplicateCode = default(bool);
-
-                foreach (var property in properties)
+                if (checkDuplicateCode.Success == (int)StatusResponse.Done)
                 {
-                    object? propertyValue;
+                    var numberOfAffectedRows = _baseDL.InsertRecord(newRecord);
 
-                    var codeAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
-
-                    if (codeAttribute != null)
+                    if (numberOfAffectedRows > 0)
                     {
-                        propertyValue = property.GetValue(newRecord, null);
-                        duplicateCode = _baseDL.CheckDuplicateCode(recordCode: propertyValue.ToString(), null);
-                    }
-                }
-
-                if (duplicateCode == true)
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.DuplicateCode,
-                        Data = new ErrorResult()
+                        return new ServiceResponse
                         {
-                            ErrorCode = AMISErrorCode.DuplicateCode,
-                            DevMsg = AMISResources.DevMsg_DuplicateCode,
-                            UserMsg = AMISResources.UserMsg_DuplicateCode,
-                            MoreInfo = AMISResources.MoreInfo_DuplicateCode
-                        }
-                    };
-                }
-
-                var numberOfAffectedRows = _baseDL.InsertRecord(newRecord);
-
-                if (numberOfAffectedRows > 0)
-                {
-                    return new ServiceResponse
+                            Success = (int)StatusResponse.Done,
+                        };
+                    }
+                    else
                     {
-                        Success = (int)StatusResponse.Done,
-                    };
+                        return new ServiceResponse
+                        {
+                            Success = (int)StatusResponse.Failed,
+                        };
+                    }
                 }
                 else
                 {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.Failed,
-                    };
+                    return checkDuplicateCode;
                 }
             }
             else
@@ -148,69 +137,30 @@ namespace MISA.AMIS.BL
 
             if (validateResult.Success == (int)StatusResponse.Done)
             {
-                var properties = typeof(T).GetProperties();
+                var checkDuplicateCode = CheckDuplicateCode(recordID, record);
 
-                var duplicateCode = default(bool);
-
-                foreach (var property in properties)
+                if(checkDuplicateCode.Success == (int)StatusResponse.Done)
                 {
-                    object? propertyValue;
+                    var numberOfAffectedRows = _baseDL.UpdateRecordByID(recordID, record);
 
-                    var codeAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
-
-                    if (codeAttribute != null)
+                    if (numberOfAffectedRows > 0)
                     {
-                        propertyValue = property.GetValue(record, null);
-                        duplicateCode = _baseDL.CheckDuplicateCode(propertyValue.ToString(), null);
-                    }
-                }
-
-                if (duplicateCode != false)
-                {
-                    foreach (var property in properties)
-                    {
-                        object? propertyValue;
-
-                        var codeAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
-
-                        if (codeAttribute != null)
+                        return new ServiceResponse
                         {
-                            propertyValue = property.GetValue(record, null);
-                            duplicateCode = _baseDL.CheckDuplicateCode(recordCode: propertyValue.ToString(), recordID);
-                        }
+                            Success = (int)StatusResponse.Done,
+                        };
                     }
-                }
-
-                if (duplicateCode == true)
-                {
-                    return new ServiceResponse
+                    else
                     {
-                        Success = (int)StatusResponse.DuplicateCode,
-                        Data = new ErrorResult()
+                        return new ServiceResponse
                         {
-                            ErrorCode = AMISErrorCode.DuplicateCode,
-                            DevMsg = AMISResources.DevMsg_DuplicateCode,
-                            UserMsg = AMISResources.UserMsg_DuplicateCode,
-                            MoreInfo = AMISResources.MoreInfo_DuplicateCode
-                        }
-                    };
-                }
-
-                var numberOfAffectedRows = _baseDL.UpdateRecordByID(recordID, record);
-
-                if (numberOfAffectedRows > 0)
-                {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.Done,
-                    };
+                            Success = (int)StatusResponse.Failed,
+                        };
+                    }
                 }
                 else
                 {
-                    return new ServiceResponse
-                    {
-                        Success = (int)StatusResponse.Failed,
-                    };
+                    return checkDuplicateCode;
                 }
             }
             else
@@ -225,50 +175,8 @@ namespace MISA.AMIS.BL
         /// <param name="record"></param>
         /// <returns>Đối tượng ServiceResponse mỗ tả thành công hay thất bại</returns>
         /// Created by: TTTuan (23/12/2022)
-        public ServiceResponse ValidateData(T record)
+        public virtual ServiceResponse ValidateData(T record)
         {
-            var errorMessages = new List<string>();
-
-            var properties = typeof(T).GetProperties();
-            foreach (var property in properties)
-            {
-                var propertyValue = property.GetValue(record);
-
-                var isNotNullOrEmptyAttribute = (IsNotNullOrEmptyAttribute?)Attribute.GetCustomAttribute(property, typeof(IsNotNullOrEmptyAttribute));
-                if (isNotNullOrEmptyAttribute != null && string.IsNullOrEmpty(propertyValue?.ToString()))
-                {
-                    errorMessages.Add(isNotNullOrEmptyAttribute.ErrorMessage);
-                }
-
-                var codeLengthAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
-                if (codeLengthAttribute != null && propertyValue?.ToString()?.Length > 20)
-                {
-                    errorMessages.Add(codeLengthAttribute.ErrorMessage);
-                }
-
-                var emailAttribute = (EmailAttribute?)Attribute.GetCustomAttribute(property, typeof(EmailAttribute));
-                if (emailAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
-                {
-                    string regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-                    if (!Regex.IsMatch(propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
-                        errorMessages.Add(emailAttribute.ErrorMessage);
-                }
-            }
-            if (errorMessages.Count > 0)
-            {
-                return new ServiceResponse
-                {
-                    Success = (int)StatusResponse.Invalid,
-                    Data = new ErrorResult
-                    {
-                        ErrorCode = AMISErrorCode.InvalidInput,
-                        DevMsg = AMISResources.DevMsg_InvalidInput,
-                        UserMsg = AMISResources.UserMsg_InvalidInput,
-                        MoreInfo = errorMessages.ToArray(),
-                    }
-                };
-            }
-
             return new ServiceResponse { Success = (int)StatusResponse.Done };
         }
         #endregion

@@ -16,7 +16,7 @@ namespace MISA.AMIS.BL
         /// <param name="employeeID"></param>
         /// <returns>bool kiểm tra có trùng hay không</returns>
         /// Modified by: TTTuan 5/1/2023
-        public ServiceResponse CheckDuplicateCode(Guid? employeeID, Employee employee);
+        public new ServiceResponse CheckDuplicateCode(Guid? employeeID, Employee employee);
 
         /// <summary>
         /// API Lấy danh sách thông tin nhân viên theo bộ lọc và phân trang
@@ -28,6 +28,6 @@ namespace MISA.AMIS.BL
         /// Created by: TTTuan (23/12/2022)
         public PagingResult GetEmployeesByFilter(string? keyword, int pageSize, int pageNumber);
 
-        public ServiceResponse ValidateData(Employee employee);
+        public new ServiceResponse ValidateData(Employee employee);
     }
 }

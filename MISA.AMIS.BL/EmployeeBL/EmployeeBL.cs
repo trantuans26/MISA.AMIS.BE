@@ -88,7 +88,7 @@ namespace MISA.AMIS.BL
                 if (emailAttribute != null && propertyValue != null && propertyValue?.ToString()?.Trim().Length > 0)
                 {
                     var regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-                    if (!Regex.IsMatch(propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
+                    if (!Regex.IsMatch(input: propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
                         errorMessages.Add(emailAttribute.ErrorMessage);
                 }
             }

@@ -163,7 +163,7 @@ namespace MISA.AMIS.API.UnitTests
 
             var fakeBaseDL = Substitute.For<IBaseDL<Employee>>();
             fakeBaseDL.InsertRecord(e).Returns(1);
-            fakeBaseDL.CheckDuplicateCode("NV-08449", null).Returns(true);
+            fakeBaseDL.CheckDuplicateCode(null, "NV-08449").Returns(true);
 
             var baseBL = new BaseBL<Employee>(fakeBaseDL);
 

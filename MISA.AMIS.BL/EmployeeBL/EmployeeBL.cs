@@ -34,10 +34,7 @@ namespace MISA.AMIS.BL
         /// Modified by: TTTuan 5/1/2023
         public override ServiceResponse CheckDuplicateCode(Guid? employeeID, Employee employee)
         {
-            var duplicateCode = _employeeDL.CheckDuplicateCode(employee.EmployeeCode, null);
-         
-            if(duplicateCode == true && employeeID != null)
-                duplicateCode = !_employeeDL.CheckDuplicateCode(employee.EmployeeCode, employeeID);
+            var duplicateCode = _employeeDL.CheckDuplicateCode(employeeID, employee.EmployeeCode);
 
             if (duplicateCode == true)
             {
@@ -102,7 +99,7 @@ namespace MISA.AMIS.BL
                         ErrorCode = AMISErrorCode.InvalidInput,
                         DevMsg = AMISResources.DevMsg_InvalidInput,
                         UserMsg = AMISResources.UserMsg_InvalidInput,
-                        MoreInfo = errorMessages.ToArray(),
+                        MoreInfo = errorMessages,
                     }
                 };
             }

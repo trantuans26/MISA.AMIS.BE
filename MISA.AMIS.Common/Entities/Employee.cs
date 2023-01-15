@@ -17,6 +17,7 @@ namespace MISA.AMIS.Common
         /// Mã nhân viên
         /// </summary>
         [IsNotNullOrEmpty("Mã nhân viên không được để trống")]
+        [Code("Mã nhân viên phải nhỏ hơn hoặc bằng 20 ký tự")]
         public string? EmployeeCode { get; set; }
 
         /// <summary>

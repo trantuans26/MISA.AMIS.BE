@@ -30,7 +30,7 @@ namespace MISA.AMIS.DL
         /// <param name="recordID"></param>
         /// <returns>bool kiểm tra có trùng hay không</returns>
         /// Modified by: TTTuan 5/1/2023
-        public bool CheckDuplicateCode(string? recordCode, Guid? recordID)
+        public bool CheckDuplicateCode(Guid? recordID, string? recordCode)
         {
             // Chuẩn bị chuỗi kết nối
             var connectionString = DataContext.ConnectionString;
@@ -43,15 +43,15 @@ namespace MISA.AMIS.DL
             parameters.Add($"${typeof(T).Name}ID", recordID);
             parameters.Add($"${typeof(T).Name}Code", recordCode);
 
-            var DuplicateCode = default(T);
+            var DuplicateCode = default(bool);
 
             // Khởi tạo kết nối đến DB
             using (var connection = _connectionDL.InitConnection(connectionString))
             {
-                DuplicateCode = _connectionDL.QueryFirstOrDefault<T>(connection, storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                DuplicateCode = _connectionDL.QueryFirstOrDefault<bool>(connection, storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
             }
 
-            return DuplicateCode != null;
+            return DuplicateCode;
         }
 
         /// <summary>

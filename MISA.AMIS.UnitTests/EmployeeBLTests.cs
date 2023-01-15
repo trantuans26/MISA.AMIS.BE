@@ -20,7 +20,7 @@ namespace MISA.AMIS.API.UnitTests
         /// </summary>
         /// Modified by: TTTuan 15/1/2023
         [Test]
-        public void InsertRecorrd_Employee_ReturnsSuccessStatus()
+        public void InsertRecord_Employee_ReturnsSuccessStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn
             var e = new Employee()
@@ -53,7 +53,7 @@ namespace MISA.AMIS.API.UnitTests
         /// </summary>
         /// Modified by: TTTuan 15/1/2023
         [Test]
-        public void InsertRecorrd_Employee_ReturnsFailedStatus()
+        public void InsertRecord_Employee_ReturnsFailedStatus()
         {
             // Arrange - Chuẩn bị dữ liệu đầu vào và kết quả mong muốn
             var e = new Employee()

@@ -26,6 +26,19 @@ namespace MISA.AMIS.DL
         }
 
         /// <summary>
+        /// Thực thi truy vấn được tham số hoá có transaction
+        /// </summary>
+        /// <param name="cnn"></param>
+        /// <param name="storedProcedureName"></param>
+        /// <param name="transaction"></param>
+        /// <param name="parameters"></param>
+        /// <param name="commandType"></param>
+        /// <returns></returns>
+        public int ExecuteUsingTransaction(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, IDbTransaction transaction, CommandType commandType)
+        {
+            return cnn.Execute(storedProcedureName, parameters, transaction: transaction, null, commandType);
+        }
+        /// <summary>
         /// Khởi tạo kết nối
         /// </summary>
         /// <param name="connectionString"></param>

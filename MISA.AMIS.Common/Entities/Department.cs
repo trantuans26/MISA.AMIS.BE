@@ -1,6 +1,8 @@
-﻿namespace MISA.AMIS.Common
+﻿using MISA.AMIS.Common.Entities;
+
+namespace MISA.AMIS.Common
 {
-    public class Department
+    public class Department : BaseEntity
     {
         /// <summary>
         /// ID phòng ban
@@ -17,24 +19,5 @@
         /// </summary>
         public string? DepartmentName { get; set; }
 
-        /// <summary>
-        /// Ngày tạo 
-        /// </summary>
-        public DateTime? CreatedDate { get; set; }
-
-        /// <summary>
-        /// Người tạo 
-        /// </summary>
-        public string? CreatedBy { get; set; }
-
-        /// <summary>
-        /// Ngày sửa gần nhất
-        /// </summary>
-        public DateTime? ModifiedDate { get; set; }
-
-        /// <summary>
-        /// Người sửa gần nhất
-        /// </summary>
-        public string? ModifiedBy { get; set; }
     }
 }

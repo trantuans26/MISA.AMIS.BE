@@ -4,9 +4,11 @@ using MISA.AMIS.Common.Resourcses;
 using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace MISA.AMIS.DL
 {
@@ -78,8 +80,40 @@ namespace MISA.AMIS.DL
             //Khởi tạo kết nối DB
             using (var connection = _connectionDL.InitConnection(connectionString))
             {
-                // Thực hiện gọi vào DB
-                numberOfAffectedRows = _connectionDL.Execute(connection, storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // Thực hiện gọi vào DB
+                        numberOfAffectedRows = _connectionDL.ExecuteUsingTransaction(connection, storedProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
+
+                        if (numberOfAffectedRows == 1)
+                        {
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            numberOfAffectedRows = 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+
+                        transaction.Rollback();
+                        numberOfAffectedRows = 0;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
             }
 
             return numberOfAffectedRows;
@@ -197,7 +231,7 @@ namespace MISA.AMIS.DL
 
                 object? propertyValue;
 
-                var primaryKeyAttribute = (PrimaryKeyAttribute?) Attribute.GetCustomAttribute(property, typeof(PrimaryKeyAttribute));
+                var primaryKeyAttribute = (PrimaryKeyAttribute?)Attribute.GetCustomAttribute(property, typeof(PrimaryKeyAttribute));
 
                 if (primaryKeyAttribute != null)
                 {

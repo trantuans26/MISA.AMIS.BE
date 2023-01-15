@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MISA.AMIS.Common.Entities;
+using System;
 using System.Reflection;
 
 namespace MISA.AMIS.Common
 {
-    public class Employee
+    public class Employee : BaseEntity
     {
         /// <summary>
         /// ID nhân viên
@@ -108,30 +109,5 @@ namespace MISA.AMIS.Common
         /// Chi nhánh ngân hàng
         /// </summary>
         public string? BankBranch { get; set; }
-
-        /// <summary>
-        /// Ngày tạo 
-        /// </summary>
-        public DateTime? CreatedDate { get; set; } 
-
-        /// <summary>
-        /// Người tạo 
-        /// </summary>
-        public string? CreatedBy { get; set; } 
-
-        /// <summary>
-        /// Ngày sửa gần nhất
-        /// </summary>
-        public DateTime? ModifiedDate { get; set; } 
-
-        /// <summary>
-        /// Người sửa gần nhất
-        /// </summary>
-        public string? ModifiedBy 
-        {
-            get;
-            set;
-        } 
-
     }
 }

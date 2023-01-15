@@ -20,6 +20,6 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Data response khi thành công hoặc thất bại
         /// </summary>
-        public object? Data { get; set; }
+        public ErrorResult? Data { get; set; }
     }
 }

@@ -76,13 +76,27 @@ namespace MISA.AMIS.BL
                 }
 
                 var codeLengthAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
-                if (codeLengthAttribute != null && propertyValue?.ToString()?.Length > 20)
+                if (codeLengthAttribute != null && propertyValue.ToString().Length > 20)
                 {
                     errorMessages.Add(codeLengthAttribute.ErrorMessage);
                 }
 
+                var nameLengthAttribute = (NameAttribute?)Attribute.GetCustomAttribute(property, typeof(NameAttribute));
+                if (nameLengthAttribute != null && propertyValue.ToString().Length > 100)
+                {
+                    errorMessages.Add(nameLengthAttribute.ErrorMessage);
+                }
+
+                var phoneAttribute = (PhoneAttribute?)Attribute.GetCustomAttribute(property, typeof(PhoneAttribute));
+                if (phoneAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
+                {
+                    var regex = @"(\d|\d|\d|\d|\d|\d|\d|\d|\d)";
+                    if (!Regex.IsMatch(input: propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
+                        errorMessages.Add(PhoneAttribute.ErrorMessage);
+                }
+
                 var emailAttribute = (EmailAttribute?)Attribute.GetCustomAttribute(property, typeof(EmailAttribute));
-                if (emailAttribute != null && propertyValue != null && propertyValue?.ToString()?.Trim().Length > 0)
+                if (emailAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
                 {
                     var regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
                     if (!Regex.IsMatch(input: propertyValue.ToString(), regex, RegexOptions.IgnoreCase))

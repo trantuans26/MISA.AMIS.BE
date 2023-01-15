@@ -58,6 +58,53 @@
     }
 
     /// <summary>
+    /// Attribute dùng để xác định 1 property là tên
+    /// </summary>
+    /// Modified by: TTTuan 6/1/2023
+    [AttributeUsage(AttributeTargets.Property)]
+    public class NameAttribute : Attribute
+    {
+        #region Field
+        /// <summary>
+        /// Message lỗi trả về cho client
+        /// </summary>
+        /// Modified by: TTTuan 6/1/2023
+        public string ErrorMessage;
+        #endregion
+
+        #region Constructor
+        public NameAttribute(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
+        }
+        #endregion
+
+        /// <summary>
+        /// Attribute tạo tên cột phục vụ cho việc Export Excel
+        /// </summary> 
+        /// Modified by: TTTuan 6/1/2023
+        [AttributeUsage(AttributeTargets.Property)]
+        public class ExcelColumnNameAttribute : Attribute
+        {
+            /// <summary>
+            /// Tên cột
+            /// </summary>
+            /// Modified by: TTTuan 6/1/2023
+            public string ColumnName { get; set; }
+
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="columnName">Tên cột</param>
+            /// Modified by: TTTuan 6/1/2023
+            public ExcelColumnNameAttribute(string columnName)
+            {
+                ColumnName = columnName;
+            }
+        }
+    }
+
+    /// <summary>
     /// Attribute dùng để xác định 1 property là email
     /// </summary>
     /// Modified by: TTTuan 6/1/2023
@@ -125,29 +172,44 @@
             ErrorMessage = errorMessage;
         }
         #endregion
+    }
 
+    /// <summary>
+    /// Attribure dùng để xác định 1 property là chỉ số
+    /// </summary>    
+    /// Modified by: TTTuan 6/1/2023
+    [AttributeUsage(AttributeTargets.Property)]
+    public class NumbersOnlyAttribute : Attribute
+    {
+        #region Field
         /// <summary>
-        /// Attribute tạo tên cột phục vụ cho việc Export Excel
-        /// </summary> 
+        /// Message lỗi trả về cho client
+        /// </summary>
         /// Modified by: TTTuan 6/1/2023
-        [AttributeUsage(AttributeTargets.Property)]
-        public class ExcelColumnNameAttribute : Attribute
-        {
-            /// <summary>
-            /// Tên cột
-            /// </summary>
-            /// Modified by: TTTuan 6/1/2023
-            public string ColumnName { get; set; }
+        public string ErrorMessage;
+        #endregion
 
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="columnName">Tên cột</param>
-            /// Modified by: TTTuan 6/1/2023
-            public ExcelColumnNameAttribute(string columnName)
-            {
-                ColumnName = columnName;
-            }
+        #region Constructor
+        public NumbersOnlyAttribute(string errorMessage)
+        {
+            ErrorMessage = errorMessage;
         }
+        #endregion
+    }
+
+    /// <summary>
+    /// Attribure dùng để xác định 1 property là số điện thoại
+    /// </summary>    
+    /// Modified by: TTTuan 6/1/2023
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PhoneAttribute : Attribute
+    {
+        #region Field
+        /// <summary>
+        /// Message lỗi trả về cho client
+        /// </summary>
+        /// Modified by: TTTuan 6/1/2023
+        public static string ErrorMessage = "Số điện thoại không hợp lệ";
+        #endregion
     }
 }

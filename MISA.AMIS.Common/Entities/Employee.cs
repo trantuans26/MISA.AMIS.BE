@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
 namespace MISA.AMIS.Common
@@ -24,6 +22,7 @@ namespace MISA.AMIS.Common
         /// Tên nhân viên
         /// </summary>
         [IsNotNullOrEmpty("Tên nhân viên không được để trống")]
+        [Name("Tên nhân viên phải nhỏ hơn hoặc bằng 100 ký tự")]
         public string? EmployeeName { get; set; }
 
         /// <summary>
@@ -60,6 +59,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Số CCCD
         /// </summary>
+        [NumbersOnly("Số CMND chỉ được nhập số")]
         public string? IdentityNumber { get; set; }
 
         /// <summary>
@@ -80,6 +80,7 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Số điện thoại di động
         /// </summary>
+        [Phone]
         public string? Phone { get; set; }
 
         /// <summary>

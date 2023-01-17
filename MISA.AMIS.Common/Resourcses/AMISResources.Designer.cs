@@ -124,6 +124,42 @@ namespace MISA.AMIS.Common.Resourcses {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Danh_sach_nhan_vien.
+        /// </summary>
+        public static string Export_Excel_FileName {
+            get {
+                return ResourceManager.GetString("Export_Excel_FileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Số thứ tự.
+        /// </summary>
+        public static string Export_Excel_No {
+            get {
+                return ResourceManager.GetString("Export_Excel_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DANH SÁCH NHÂN VIÊN.
+        /// </summary>
+        public static string Export_Excel_SheetName {
+            get {
+                return ResourceManager.GetString("Export_Excel_SheetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DANH SÁCH NHÂN VIÊN.
+        /// </summary>
+        public static string Export_Excel_TitleName {
+            get {
+                return ResourceManager.GetString("Export_Excel_TitleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to https://openapi.com.vn/cukcuk/error-code/3.
         /// </summary>
         public static string MoreInfo_DeleteFailed {

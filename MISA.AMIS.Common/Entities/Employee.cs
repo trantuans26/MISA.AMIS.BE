@@ -17,6 +17,7 @@ namespace MISA.AMIS.Common
         /// </summary>
         [IsNotNullOrEmpty("Mã nhân viên không được để trống")]
         [Code("Mã nhân viên phải nhỏ hơn hoặc bằng 20 ký tự")]
+        [ExcelColumnName("Mã nhân viên")]
         public string? EmployeeCode { get; set; }
 
         /// <summary>
@@ -24,6 +25,7 @@ namespace MISA.AMIS.Common
         /// </summary>
         [IsNotNullOrEmpty("Tên nhân viên không được để trống")]
         [Name("Tên nhân viên phải nhỏ hơn hoặc bằng 100 ký tự")]
+        [ExcelColumnName("Tên nhân viên")]
         public string? EmployeeName { get; set; }
 
         /// <summary>
@@ -40,21 +42,25 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Tên phòng ban
         /// </summary>
+        [ExcelColumnName("Tên đơn vị")]
         public string? DepartmentName { get; set; }
 
         /// <summary>
         /// Chức vụ
         /// </summary>
+        [ExcelColumnName("Chức danh")]
         public string? JobPosition { get; set; }
 
         /// <summary>
         /// Ngày sinh
         /// </summary>
+        [ExcelColumnName("Ngày sinh")]
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>
         /// Giới tính
         /// </summary>
+        [ExcelColumnName("Giới tính")]
         public Gender? Gender { get; set; }
 
         /// <summary>
@@ -98,16 +104,19 @@ namespace MISA.AMIS.Common
         /// <summary>
         /// Số tài khoản ngân hàng
         /// </summary>
+        [ExcelColumnName("Số tài khoản")]
         public string? BankNumber { get; set; }
 
         /// <summary>
         /// Tên tài khoản ngân hàng
         /// </summary>
+        [ExcelColumnName("Tên ngân hàng")]
         public string? BankName { get; set; }
 
         /// <summary>
         /// Chi nhánh ngân hàng
         /// </summary>
+        [ExcelColumnName("Chi nhánh TK ngân hàng")]
         public string? BankBranch { get; set; }
     }
 }

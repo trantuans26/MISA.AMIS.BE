@@ -19,6 +19,13 @@ namespace MISA.AMIS.BL
         public new ServiceResponse CheckDuplicateCode(Guid? employeeID, Employee employee);
 
         /// <summary>
+        /// Xuất file excel danh sách bản ghi
+        /// </summary>
+        /// <returns>File excel danh sách bản ghi</returns>
+        /// Modified by: TTTuan 5/1/2023
+        public Stream ExportExcel();
+
+        /// <summary>
         /// API Lấy danh sách thông tin nhân viên theo bộ lọc và phân trang
         /// </summary>
         /// <param name="keyword">Mã nhân viên, tên nhân viên, số điện thoại</param>
@@ -28,6 +35,12 @@ namespace MISA.AMIS.BL
         /// Created by: TTTuan (23/12/2022)
         public PagingResult GetEmployeesByFilter(string? keyword, int pageSize, int pageNumber);
 
+        /// <summary>
+        /// Validate dữ liệu đầu vào
+        /// </summary>
+        /// <param name="employee"></param>
+        /// <returns>Đối tượng ServiceResponse mỗ tả thành công hay thất bại</returns>
+        /// Created by: TTTuan (23/12/2022)
         public new ServiceResponse ValidateData(Employee employee);
     }
 }

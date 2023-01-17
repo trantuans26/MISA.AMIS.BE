@@ -78,29 +78,30 @@
             ErrorMessage = errorMessage;
         }
         #endregion
+    }
+
+
+    /// <summary>
+    /// Attribute tạo tên cột phục vụ cho việc Export Excel
+    /// </summary> 
+    /// Modified by: TTTuan 6/1/2023
+    [AttributeUsage(AttributeTargets.Property)]
+    public class ExcelColumnNameAttribute : Attribute
+    {
+        /// <summary>
+        /// Tên cột
+        /// </summary>
+        /// Modified by: TTTuan 6/1/2023
+        public string ColumnName { get; set; }
 
         /// <summary>
-        /// Attribute tạo tên cột phục vụ cho việc Export Excel
-        /// </summary> 
+        /// Constructor
+        /// </summary>
+        /// <param name="columnName">Tên cột</param>
         /// Modified by: TTTuan 6/1/2023
-        [AttributeUsage(AttributeTargets.Property)]
-        public class ExcelColumnNameAttribute : Attribute
+        public ExcelColumnNameAttribute(string columnName)
         {
-            /// <summary>
-            /// Tên cột
-            /// </summary>
-            /// Modified by: TTTuan 6/1/2023
-            public string ColumnName { get; set; }
-
-            /// <summary>
-            /// Constructor
-            /// </summary>
-            /// <param name="columnName">Tên cột</param>
-            /// Modified by: TTTuan 6/1/2023
-            public ExcelColumnNameAttribute(string columnName)
-            {
-                ColumnName = columnName;
-            }
+            ColumnName = columnName;
         }
     }
 

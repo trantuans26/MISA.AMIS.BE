@@ -144,6 +144,18 @@
     <value>Server không tìm thấy bất kì tài nguyên nào, bản ghi không tồn tại</value>
     <comment>Thông báo cho dev khi sửa bản ghi thất bại</comment>
   </data>
+  <data name="Export_Excel_FileName" xml:space="preserve">
+    <value>Danh_sach_nhan_vien</value>
+  </data>
+  <data name="Export_Excel_No" xml:space="preserve">
+    <value>Số thứ tự</value>
+  </data>
+  <data name="Export_Excel_SheetName" xml:space="preserve">
+    <value>DANH SÁCH NHÂN VIÊN</value>
+  </data>
+  <data name="Export_Excel_TitleName" xml:space="preserve">
+    <value>DANH SÁCH NHÂN VIÊN</value>
+  </data>
   <data name="MoreInfo_DeleteFailed" xml:space="preserve">
     <value>https://openapi.com.vn/cukcuk/error-code/3</value>
     <comment>Link đến trang mô tả chi tiết lỗi khi xoá</comment>

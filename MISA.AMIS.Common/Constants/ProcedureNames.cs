@@ -43,6 +43,11 @@ namespace MISA.AMIS.Common
         public static readonly string DELETE_BY_ID = "Proc_{0}_DeleteByID";
 
         /// <summary>
+        /// Tên proc xoá 1 bản ghi
+        /// </summary>
+        public static readonly string DELETE_BY_IDS = "Proc_{0}_DeleteByIDs";
+
+        /// <summary>
         /// Tên proc lấy mã mới
         /// </summary>
         public static readonly string GET_NEW_CODE = "Proc_{0}_GetNewCode";

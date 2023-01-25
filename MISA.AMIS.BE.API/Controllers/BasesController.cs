@@ -262,6 +262,48 @@ namespace MISA.AMIS.API
                 });
             }
         }
+
+        /// <summary>
+        /// Xoá nhiều bản ghi
+        /// </summary>
+        /// <param name="recordIDs"></param>
+        /// <returns>Số bản ghi bị ảnh hưởng</returns>
+        /// Modified by: TTTuan 5/1/2023
+        [HttpPost("deleteBatch")]
+        public IActionResult DeleteRecordsByIDs([FromBody] ListIDs listIDs)
+        {
+            try
+            {
+                var numberOfAffectedRows = _baseBL.DeleteRecordsByIDs(listIDs.IDs);
+                if (numberOfAffectedRows > 0)
+                {
+                    return StatusCode(StatusCodes.Status200OK, listIDs.IDs);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status404NotFound, new
+                    {
+                        ErrorCode = AMISErrorCode.DeleteFailed,
+                        DevMsg = AMISResources.DevMsg_DeleteFailed,
+                        UserMsg = AMISResources.UserMsg_DeleteFailed,
+                        MoreInfo = AMISResources.MoreInfo_DeleteFailed,
+                        TraceID = HttpContext.TraceIdentifier
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResult
+                {
+                    ErrorCode = AMISErrorCode.Exception,
+                    DevMsg = AMISResources.DevMsg_Exception,
+                    UserMsg = AMISResources.UserMsg_Exception,
+                    MoreInfo = AMISResources.MoreInfo_Exception,
+                    TraceID = HttpContext.TraceIdentifier
+                });
+            }
+        }
         #endregion
     }
 }

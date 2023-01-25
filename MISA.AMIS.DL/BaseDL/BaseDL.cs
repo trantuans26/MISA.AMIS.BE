@@ -120,6 +120,69 @@ namespace MISA.AMIS.DL
         }
 
         /// <summary>
+        /// Xoá nhiều bản ghi
+        /// </summary>
+        /// <param name="recordIDs"></param>
+        /// <returns>Số bản ghi bị ảnh hưởng</returns>
+        /// Modified by: TTTuan 5/1/2023
+        public int DeleteRecordsByIDs(string recordIDs)
+        {
+            // Khai báo kết nối tới DB
+            var connectionString = DataContext.ConnectionString;
+
+            // Khai báo tên stored procedure
+            var storedProcedureName = string.Format(ProcedureNames.DELETE_BY_IDS, typeof(T).Name);
+
+            // Khai báo kết quả trả về
+            var numberOfAffectedRows = 0;
+
+            // Chuẩn bị tham số đầu vào 
+            var parameters = new DynamicParameters();
+            parameters.Add($"${typeof(T).Name}IDs", recordIDs);
+
+            //Khởi tạo kết nối DB
+            using (var connection = _connectionDL.InitConnection(connectionString))
+            {
+
+                if (connection.State != ConnectionState.Open)
+                {
+                    connection.Open();
+                }
+                using (var transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // Thực hiện gọi vào DB
+                        numberOfAffectedRows = _connectionDL.ExecuteUsingTransaction(connection, storedProcedureName, parameters, transaction, commandType: System.Data.CommandType.StoredProcedure);
+
+                        if (numberOfAffectedRows > 0)
+                        {
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            transaction.Rollback();
+                            numberOfAffectedRows = 0;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+
+                        transaction.Rollback();
+                        numberOfAffectedRows = 0;
+                    }
+                    finally
+                    {
+                        connection.Close();
+                    }
+                }
+            }
+
+            return numberOfAffectedRows;
+        }
+
+        /// <summary>
         /// Lấy danh sách tất cả bản ghi
         /// </summary>
         /// <returns>Danh sách toàn bộ bản ghi trong bảng</returns>

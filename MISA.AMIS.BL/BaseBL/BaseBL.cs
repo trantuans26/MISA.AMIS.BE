@@ -48,6 +48,17 @@ namespace MISA.AMIS.BL
         }
 
         /// <summary>
+        /// Xoá nhiều bản ghi
+        /// </summary>
+        /// <param name="recordIDs"></param>
+        /// <returns>Số bản ghi bị ảnh hưởng</returns>
+        /// Modified by: TTTuan 5/1/2023
+        public int DeleteRecordsByIDs(string recordIDs)
+        {
+            return _baseDL.DeleteRecordsByIDs(recordIDs);
+        }
+
+        /// <summary>
         /// Lấy danh sách tất cả bản ghi
         /// </summary>
         /// <returns>Danh sách toàn bộ bản ghi trong bảng</returns>

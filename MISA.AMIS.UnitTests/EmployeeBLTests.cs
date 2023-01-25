@@ -260,6 +260,7 @@ namespace MISA.AMIS.API.UnitTests
             Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
         }
 
+
         /// <summary>
         /// Độ dài mã lớn hơn giá trị cho phép
         /// </summary>

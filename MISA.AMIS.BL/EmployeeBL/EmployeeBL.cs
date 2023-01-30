@@ -164,9 +164,9 @@ namespace MISA.AMIS.BL
         /// </summary>
         /// <returns>File excel danh sách bản ghi</returns>
         /// Modified by: TTTuan 5/1/2023
-        public Stream ExportExcel()
+        public Stream ExportExcel(string? keyword)
         {
-            var employees = _employeeDL.GetAllRecords();
+            var employees = _employeeDL.ExportExcel(keyword);
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             var stream = new MemoryStream();
             var package = new ExcelPackage(stream);

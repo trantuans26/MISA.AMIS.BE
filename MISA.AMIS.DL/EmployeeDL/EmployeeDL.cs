@@ -22,6 +22,31 @@ namespace MISA.AMIS.DL
         {
             _connectionDL = connectionDL;
         }
+
+        public IEnumerable<Employee> ExportExcel(string? keyword)
+        {
+            // Chuẩn bị chuỗi kết nối
+            var connectionString = DataContext.ConnectionString;
+
+            // Chuẩn bị tên stored procedure
+            var storedProcedureName = string.Format(ProcedureNames.EXPORT_EXCEL, typeof(Employee).Name);
+
+            // Chuẩn bị tham số đầu vào
+            var parameters = new DynamicParameters();
+            parameters.Add("$Keyword", keyword); ;
+
+            // Khai báo kết quả trả về
+            var employees = default(IEnumerable<Employee>);
+
+            // Khởi tạo kết nối đến DB
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                // Thực hiện gọi vào db
+                employees = connection.Query<Employee>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+            }
+
+            return employees;
+        }
         #endregion
 
         /// <summary>
@@ -38,7 +63,7 @@ namespace MISA.AMIS.DL
             var connectionString = DataContext.ConnectionString;
 
             // Chuẩn bị tên stored procedure
-            var storedProcedureName = string.Format(AMISResources.Proc_GetByFilter, typeof(Employee).Name);
+            var storedProcedureName = string.Format(ProcedureNames.GET_BY_FILTER, typeof(Employee).Name);
 
             // Chuẩn bị tham số đầu vào
             var parameters = new DynamicParameters();

@@ -10,7 +10,7 @@ namespace MISA.AMIS.DL
     public interface IEmployeeDL : IBaseDL<Employee>
     {
         /// <summary>
-        /// API Lấy danh sách thông tin nhân viên theo bộ lọc và phân trang
+        /// Lấy danh sách thông tin nhân viên theo bộ lọc và phân trang
         /// </summary>
         /// <param name="keyword">Mã nhân viên, tên nhân viên, số điện thoại</param>
         /// <param name="pageSize">Số bản ghi muốn lấy</param>
@@ -18,5 +18,13 @@ namespace MISA.AMIS.DL
         /// <returns>Danh sách thông tin nhân viên & tổng số trang và tổng số bản ghi</returns>
         /// Created by: TTTuan (23/12/2022)
         public PagingResult GetEmployeesByFilter(string? keyword, int pageSize, int pageNumber);
+
+        /// <summary>
+        /// Xuất file excel
+        /// </summary>
+        /// <param name="keyword"></param>
+        /// <returns></returns>
+        /// Modified by: TTTuan 5/1/2023
+        public IEnumerable<Employee> ExportExcel(string? keyword);
     }
 }

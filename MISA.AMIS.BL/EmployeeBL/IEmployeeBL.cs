@@ -23,7 +23,7 @@ namespace MISA.AMIS.BL
         /// </summary>
         /// <returns>File excel danh sách bản ghi</returns>
         /// Modified by: TTTuan 5/1/2023
-        public Stream ExportExcel();
+        public Stream ExportExcel(string? keyword);
 
         /// <summary>
         /// API Lấy danh sách thông tin nhân viên theo bộ lọc và phân trang

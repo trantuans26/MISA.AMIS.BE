@@ -64,11 +64,11 @@ namespace MISA.AMIS.API
         /// <returns>File excel danh sách bản ghi</returns>
         /// Modified by: TTTuan (5/1/2022)
         [HttpGet("export")]
-        public IActionResult ExportExcel()
+        public IActionResult ExportExcel([FromQuery] string? keyword)
         {
             try
             {
-                var stream = _employeeBL.ExportExcel();
+                var stream = _employeeBL.ExportExcel(keyword);
                 string excelName = $"{AMISResources.Export_Excel_FileName}_{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsx";
 
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);

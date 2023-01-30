@@ -48,6 +48,11 @@ namespace MISA.AMIS.Common
         public static readonly string DELETE_BY_IDS = "Proc_{0}_DeleteByIDs";
 
         /// <summary>
+        /// Tên proc xuất file excel
+        /// </summary>
+        public static readonly string EXPORT_EXCEL = "Proc_{0}_ExportExcel";
+
+        /// <summary>
         /// Tên proc lấy mã mới
         /// </summary>
         public static readonly string GET_NEW_CODE = "Proc_{0}_GetNewCode";

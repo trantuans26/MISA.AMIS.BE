@@ -16,7 +16,6 @@ namespace MISA.AMIS.Common
         /// Mã nhân viên
         /// </summary>
         [IsNotNullOrEmpty("Mã nhân viên không được để trống")]
-        [Code("Mã nhân viên phải nhỏ hơn hoặc bằng 20 ký tự")]
         [MaxLength("Mã nhân viên phải nhỏ hơn hoặc bằng 20 ký tự", 20)]
         [ExcelColumnName("Mã nhân viên")]
         public string? EmployeeCode { get; set; }
@@ -25,7 +24,6 @@ namespace MISA.AMIS.Common
         /// Tên nhân viên
         /// </summary>
         [IsNotNullOrEmpty("Tên nhân viên không được để trống")]
-        [Name("Tên nhân viên phải nhỏ hơn hoặc bằng 100 ký tự")]
         [MaxLength("Tên nhân viên phải nhỏ hơn hoặc bằng 100 ký tự", 100)]
         [ExcelColumnName("Tên nhân viên")]
         public string? EmployeeName { get; set; }

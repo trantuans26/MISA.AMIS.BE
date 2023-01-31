@@ -360,7 +360,7 @@ namespace MISA.AMIS.API.UnitTests
 
             var expectedResult = new List<string>
             {
-                PhoneAttribute.ErrorMessage,
+                "Số điện thoại không hợp lệ",
             };
 
             // Act - Gọi vào hàm cần test

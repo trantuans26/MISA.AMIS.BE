@@ -200,32 +200,17 @@ namespace MISA.AMIS.BL
                     errorMessages.Add(isNotNullOrEmptyAttribute.ErrorMessage);
                 }
 
-                var codeLengthAttribute = (CodeAttribute?)Attribute.GetCustomAttribute(property, typeof(CodeAttribute));
-                if (codeLengthAttribute != null && propertyValue.ToString().Length > 20)
+                var maxLengthAttribute = (MaxLengthAttribute?)Attribute.GetCustomAttribute(property, typeof(MaxLengthAttribute));
+                if (maxLengthAttribute != null && propertyValue.ToString().Length > maxLengthAttribute.MaxLength)
                 {
-                    errorMessages.Add(codeLengthAttribute.ErrorMessage);
+                    errorMessages.Add(maxLengthAttribute.ErrorMessage);
                 }
 
-                var nameLengthAttribute = (NameAttribute?)Attribute.GetCustomAttribute(property, typeof(NameAttribute));
-                if (nameLengthAttribute != null && propertyValue.ToString().Length > 100)
+                var regexAttribute = (RegexAttribute?)Attribute.GetCustomAttribute(property, typeof(RegexAttribute));
+                if (regexAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
                 {
-                    errorMessages.Add(nameLengthAttribute.ErrorMessage);
-                }
-
-                var phoneAttribute = (PhoneAttribute?)Attribute.GetCustomAttribute(property, typeof(PhoneAttribute));
-                if (phoneAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
-                {
-                    var regex = @"^\d{10}$";
-                    if (!Regex.IsMatch(input: propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
-                        errorMessages.Add(PhoneAttribute.ErrorMessage);
-                }
-
-                var emailAttribute = (EmailAttribute?)Attribute.GetCustomAttribute(property, typeof(EmailAttribute));
-                if (emailAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
-                {
-                    var regex = @"^[^@\s]+@[^@\s]+\.(com|net|org|gov)$";
-                    if (!Regex.IsMatch(input: propertyValue.ToString(), regex, RegexOptions.IgnoreCase))
-                        errorMessages.Add(emailAttribute.ErrorMessage);
+                    if (!Regex.IsMatch(input: propertyValue.ToString(), regexAttribute.Pattern, RegexOptions.IgnoreCase))
+                        errorMessages.Add(regexAttribute.ErrorMessage);
                 }
             }
             if (errorMessages.Count > 0)

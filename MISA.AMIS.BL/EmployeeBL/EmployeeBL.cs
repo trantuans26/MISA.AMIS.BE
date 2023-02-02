@@ -11,6 +11,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Drawing;
+using Aspose.Cells;
+using System.IO;
 
 namespace MISA.AMIS.BL
 {
@@ -177,58 +179,6 @@ namespace MISA.AMIS.BL
             package.Save();
             stream.Position = 0; // Đặt con trỏ về đầu file để đọc
             return package.Stream;
-        }
-
-        /// <summary>
-        /// Validate dữ liệu đầu vào
-        /// </summary>
-        /// <param name="employee"></param>
-        /// <returns>Đối tượng ServiceResponse mỗ tả thành công hay thất bại</returns>
-        /// Created by: TTTuan (23/12/2022)
-        public override ServiceResponse ValidateData(Employee employee)
-        {
-            var errorMessages = new List<string>();
-
-            var properties = typeof(Employee).GetProperties();
-            foreach (var property in properties)
-            {
-                var propertyValue = property.GetValue(employee);
-
-                var isNotNullOrEmptyAttribute = (IsNotNullOrEmptyAttribute?)Attribute.GetCustomAttribute(property, typeof(IsNotNullOrEmptyAttribute));
-                if (isNotNullOrEmptyAttribute != null && string.IsNullOrEmpty(propertyValue?.ToString()))
-                {
-                    errorMessages.Add(isNotNullOrEmptyAttribute.ErrorMessage);
-                }
-
-                var maxLengthAttribute = (MaxLengthAttribute?)Attribute.GetCustomAttribute(property, typeof(MaxLengthAttribute));
-                if (maxLengthAttribute != null && propertyValue.ToString().Length > maxLengthAttribute.MaxLength)
-                {
-                    errorMessages.Add(maxLengthAttribute.ErrorMessage);
-                }
-
-                var regexAttribute = (RegexAttribute?)Attribute.GetCustomAttribute(property, typeof(RegexAttribute));
-                if (regexAttribute != null && propertyValue != null && propertyValue.ToString().Trim().Length > 0)
-                {
-                    if (!Regex.IsMatch(input: propertyValue.ToString(), regexAttribute.Pattern, RegexOptions.IgnoreCase))
-                        errorMessages.Add(regexAttribute.ErrorMessage);
-                }
-            }
-            if (errorMessages.Count > 0)
-            {
-                return new ServiceResponse
-                {
-                    Success = (int)StatusResponse.Invalid,
-                    Data = new ErrorResult
-                    {
-                        ErrorCode = AMISErrorCode.InvalidInput,
-                        DevMsg = AMISResources.DevMsg_InvalidInput,
-                        UserMsg = AMISResources.UserMsg_InvalidInput,
-                        MoreInfo = errorMessages,
-                    }
-                };
-            }
-            
-            return new ServiceResponse { Success = (int)StatusResponse.Done };
         }
 
         /// <summary>

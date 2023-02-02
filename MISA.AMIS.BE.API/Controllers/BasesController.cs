@@ -126,17 +126,7 @@ namespace MISA.AMIS.API
             try
             {
                 var result = _baseBL.InsertRecord(newRecord);
-                if (!ModelState.IsValid)
-                {
-                    return StatusCode(StatusCodes.Status400BadRequest, new ErrorResult()
-                    {
-                        ErrorCode = AMISErrorCode.InsertFailed,
-                        DevMsg = AMISResources.DevMsg_InsertFailed,
-                        UserMsg = AMISResources.UserMsg_InsertFailed,
-                        MoreInfo = "lớn hơn 2",
-                        TraceID = HttpContext.TraceIdentifier
-                    });
-                }
+
                 // Xử lý kết quả trả về
                 if (result.Success == (int)StatusResponse.Done)
                 {

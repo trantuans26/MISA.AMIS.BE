@@ -68,7 +68,7 @@ namespace MISA.AMIS.API
         {
             try
             {
-                var stream = _employeeBL.ExportExcel(keyword);
+                var stream = _employeeBL.ExportExcelAspose(keyword);
                 string excelName = $"{AMISResources.Export_Excel_FileName}_{DateTime.Now.ToString("ddMMyyyyHHmmss")}.xlsx";
 
                 return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelName);

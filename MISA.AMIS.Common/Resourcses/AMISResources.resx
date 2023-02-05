@@ -148,7 +148,7 @@
     <value>Danh_sach_nhan_vien</value>
   </data>
   <data name="Export_Excel_No" xml:space="preserve">
-    <value>Số thứ tự</value>
+    <value>STT</value>
   </data>
   <data name="Export_Excel_SheetName" xml:space="preserve">
     <value>DANH SÁCH NHÂN VIÊN</value>

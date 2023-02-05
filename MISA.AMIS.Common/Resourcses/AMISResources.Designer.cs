@@ -133,7 +133,7 @@ namespace MISA.AMIS.Common.Resourcses {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Số thứ tự.
+        ///   Looks up a localized string similar to STT.
         /// </summary>
         public static string Export_Excel_No {
             get {

@@ -62,131 +62,30 @@ namespace MISA.AMIS.BL
         /// <summary>
         /// Binding format style cho file excel
         /// </summary>
-        /// <param name="workSheet">Sheet cần binding format</param>
+        /// <param name="worksheet">Sheet cần binding format</param>
         /// <param name="employees">Danh sách bản ghi</param>
-        /// Author:NVHThai (17/10/2022)
-        private void BindingFormatForExcel(Worksheet workSheet, IEnumerable<Employee> employees)
+        /// Modified by: TTTuan 5/2/2023
+        private void ImportDataTableExcel(Worksheet worksheet, IEnumerable<Employee> employees)
         {
-        }
-
-        /// <summary>
-        /// Xuất file excel danh sách bản ghi
-        /// </summary>
-        /// <returns>File excel danh sách bản ghi</returns>
-        /// Modified by: TTTuan 5/1/2023
-        public Stream ExportExcel(string? keyword)
-        {
-            var stream = new MemoryStream();
-            return stream;
-        }
-
-        /// <summary>
-        /// Xuất file excel danh sách bản ghi
-        /// </summary>
-        /// <returns>File excel danh sách bản ghi</returns>
-        /// Modified by: TTTuan 5/1/2023
-        public MemoryStream ExportExcelAspose(string? keyword)
-        {
-            /*
-             * Uncomment the code below when you have purchased license
-             * for Aspose.Cells. You need to deploy the license in the
-             * same folder as your executable, alternatively you can add
-             * the license file as an embedded resource to your project.
-            */
-            //Aspose.Cells.License cellsLicense = new Aspose.Cells.License();
-            //cellsLicense.SetLicense("Aspose.Cells.lic");
-
-            // Create workbook
-            var wb = new Workbook();
-
-            // Adding a new worksheet to the Workbook object
-            var worksheet = wb.Worksheets[0];
-            worksheet.Name = AMISResources.Export_Excel_SheetName;
-
-            var style = wb.CreateStyle();
-            style.Font.Name = "Times New Roman";
-            style.Font.Size = 11;
-            style.HorizontalAlignment = TextAlignmentType.Left; 
-            style.VerticalAlignment = TextAlignmentType.Center;
-
-            var styleTitle = wb.CreateStyle();
-            styleTitle.Font.Size = 16;
-            styleTitle.Font.IsBold = true;
-            styleTitle.HorizontalAlignment = TextAlignmentType.Center;
-            styleTitle.VerticalAlignment = TextAlignmentType.Center;
-
-
-            var styleHeader = wb.CreateStyle();
-            styleHeader.Font.Size = 10;
-            styleHeader.Font.IsBold = true;
-            styleHeader.HorizontalAlignment = TextAlignmentType.Center;
-            styleHeader.VerticalAlignment = TextAlignmentType.Center;
-            styleHeader.SetBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
-            styleHeader.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
-            styleHeader.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
-            styleHeader.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
-            styleHeader.Pattern = BackgroundType.Solid;
-            styleHeader.ForegroundColor = System.Drawing.Color.LightGray;
-
-            var styleValue = wb.CreateStyle();
-            styleValue.Font.Name = "Times New Roman";
-            styleValue.Font.Size = 11;
-            styleValue.HorizontalAlignment = TextAlignmentType.Left;
-            styleValue.VerticalAlignment = TextAlignmentType.Center;
-            styleValue.SetBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
-            styleValue.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
-            styleValue.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
-            styleValue.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
-
-            var styleAlignCenter = wb.CreateStyle();
-            styleAlignCenter.HorizontalAlignment = TextAlignmentType.Center;
-            styleAlignCenter.Font.Name = "Times New Roman";
-            styleAlignCenter.Font.Size = 11;
-            styleAlignCenter.SetBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
-            styleAlignCenter.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
-            styleAlignCenter.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
-            styleAlignCenter.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
-
-            wb.DefaultStyle= style;
-
             // Lấy ra các property có attribute name là ExcelColumnNameAttribute 
             var excelColumnProperties = typeof(Employee).GetProperties().Where(p => p.GetCustomAttributes(typeof(ExcelColumnNameAttribute), true).Length > 0);
 
-            // Lấy ra tên column cuối cùng (tính cả số thứ tự)
-            var lastColumnName = (char)('A' + excelColumnProperties.Count());
-
-
-            var dataTableTitle = new DataTable(AMISResources.Export_Excel_TitleName);
-
-            Aspose.Cells.Range rangeTitle = worksheet.Cells.CreateRange("A1", $"{lastColumnName}1");
-            rangeTitle.SetStyle(styleTitle);
-            rangeTitle.Value = AMISResources.Export_Excel_TitleName;
-            rangeTitle.Merge();
-
-            Aspose.Cells.Range rangeEmpty = worksheet.Cells.CreateRange("A2", $"{lastColumnName}2");
-            rangeEmpty.Merge();
-
-            // Instantiating a DataTable object
+            // Tạo một DataTable object
             var dataTable = new DataTable(AMISResources.Export_Excel_TitleName);
 
-            var columnLength = 1;
+            // Tạo header cho DataTable
             dataTable.Columns.Add(AMISResources.Export_Excel_No, typeof(Int32));
             foreach (var property in excelColumnProperties)
             {
                 var excelColumnName = (property.GetCustomAttributes(typeof(ExcelColumnNameAttribute), true)[0] as ExcelColumnNameAttribute).ColumnName;
                 dataTable.Columns.Add(excelColumnName, typeof(string));
-                columnLength++;
-
             }
 
-
-            var employees = _employeeDL.ExportExcel(keyword);
-
-            // Creating an empty row in the DataTable object
+            // Tạo dòng trống cho DataTable
             var dr = dataTable.NewRow();
 
+            // Thêm nội dung cho DataTable
             var stt = 1;
-            var rowLength = 3;
             var columnIndex = 1;
             foreach (var employee in employees)
             {
@@ -218,22 +117,118 @@ namespace MISA.AMIS.BL
                     columnIndex++;
                 }
                 stt++;
-                // Adding filled row to the DataTable object
+
+                // Đổ nội dung dòng vào DataTable
                 dataTable.Rows.Add(dr);
-                rowLength++;
             }
 
-            // Importing the contents of DataTable to the worksheet starting from "A1" cell,
+            // Importing the contents of DataTable to the worksheet starting from "A3" cell,
             // Where true specifies that the column names of the DataTable would be added to
-            // The worksheet as a header row
+            // The worksheet as a body row
             worksheet.Cells.ImportDataTable(dataTable, true, "A3");
+        }
+
+        /// <summary>
+        /// Xuất file excel danh sách bản ghi
+        /// </summary>
+        /// <returns>File excel danh sách bản ghi</returns>
+        /// Modified by: TTTuan 5/2/2023
+        public MemoryStream ExportExcel(string? keyword)
+        {
+            /*
+             * Uncomment the code below when you have purchased license
+             * for Aspose.Cells. You need to deploy the license in the
+             * same folder as your executable, alternatively you can add
+             * the license file as an embedded resource to your project.
+            */
+            //Aspose.Cells.License cellsLicense = new Aspose.Cells.License();
+            //cellsLicense.SetLicense("Aspose.Cells.lic");
+
+            // Tạo workbook
+            var wb = new Workbook();
+
+            // Tạo style mặc định cho workbook
+            var style = wb.CreateStyle();
+            style.Font.Name = "Times New Roman";
+            style.Font.Size = 11;
+            style.HorizontalAlignment = TextAlignmentType.Left; 
+            style.VerticalAlignment = TextAlignmentType.Center;
+
+            // Tạo style cho chủ để
+            var styleTitle = wb.CreateStyle();
+            styleTitle.Font.Size = 16;
+            styleTitle.Font.IsBold = true;
+            styleTitle.HorizontalAlignment = TextAlignmentType.Center;
+            styleTitle.VerticalAlignment = TextAlignmentType.Center;
+
+            // Tạo style border
+            var styleBorder = wb.CreateStyle();
+            styleBorder.SetBorder(BorderType.TopBorder, CellBorderType.Thin, Color.Black);
+            styleBorder.SetBorder(BorderType.BottomBorder, CellBorderType.Thin, Color.Black);
+            styleBorder.SetBorder(BorderType.LeftBorder, CellBorderType.Thin, Color.Black);
+            styleBorder.SetBorder(BorderType.RightBorder, CellBorderType.Thin, Color.Black);
+
+            // Tạo style cho header bảng
+            var styleHeader = wb.CreateStyle();
+            styleHeader.Copy(styleBorder);
+            styleHeader.Font.Size = 10;
+            styleHeader.Font.IsBold = true;
+            styleHeader.HorizontalAlignment = TextAlignmentType.Center;
+            styleHeader.VerticalAlignment = TextAlignmentType.Center;
+            styleHeader.Pattern = BackgroundType.Solid;
+            styleHeader.ForegroundColor = System.Drawing.Color.LightGray;
+
+            // Tạo style cho nội dung bảng
+            var styleValue = wb.CreateStyle();
+            styleValue.Copy(styleBorder);
+            styleValue.Copy(style);
+
+            // Tạo style cho ngày tháng
+            var styleAlignCenter = wb.CreateStyle();
+            styleAlignCenter.Copy(styleValue);
+            styleAlignCenter.HorizontalAlignment = TextAlignmentType.Center;
+
+            // Thêm style mặc định cho workbook
+            wb.DefaultStyle = style;
+
+            // Lấy ra các property có attribute name là ExcelColumnNameAttribute 
+            var excelColumnProperties = typeof(Employee).GetProperties().Where(p => p.GetCustomAttributes(typeof(ExcelColumnNameAttribute), true).Length > 0);
+
+            // Số các cột = cột số thứ tự + các cột cần xuất file excel
+            var columnLength = excelColumnProperties.Count() + 1;
+
+            // Lấy ra tên column cuối cùng (tính cả số thứ tự)
+            var lastColumnName = (char)('A' + excelColumnProperties.Count());
+
+            // Thêm một worksheet đến workbook
+            var worksheet = wb.Worksheets[0];
+            worksheet.Name = AMISResources.Export_Excel_SheetName;
+
+            // Tạo chủ để của worksheet
+            var rangeTitle = worksheet.Cells.CreateRange("A1", $"{lastColumnName}1");
+            rangeTitle.SetStyle(styleTitle);
+            rangeTitle.Value = AMISResources.Export_Excel_TitleName;
+            rangeTitle.Merge();
+
+            var rangeEmpty = worksheet.Cells.CreateRange("A2", $"{lastColumnName}2");
+            rangeEmpty.Merge();
+
+            var employees = _employeeDL.ExportExcel(keyword);
+
+            // Số dòng bắt đầu từ vị trí A4 nên + 3 
+            var rowLength = 3 + employees.Count();
+
+            // Tạo nội dung bảng
+            ImportDataTableExcel(worksheet, employees);
             
+            // Thiết lập style cho header bảng
             for(var i = 0; i < columnLength; i++)
             {
                 worksheet.Cells[2, i].SetStyle(styleHeader);
 
             }
 
+            // Thiết lập style cho nội dung bảng
             for (var i = 0; i < columnLength; i++)
             {
                 for (var j = 3; j < rowLength; j++)
@@ -249,9 +244,10 @@ namespace MISA.AMIS.BL
                 }
             }
 
+            // Tự căn chỉnh độ rộng worksheet
             worksheet.AutoFitColumns();
 
-            // save workbook to MemoryStream
+            // Lưu workbook đến MemoryStream
             var stream = new MemoryStream();
             wb.Save(stream, SaveFormat.Xlsx);
             stream.Position = 0;    // important!

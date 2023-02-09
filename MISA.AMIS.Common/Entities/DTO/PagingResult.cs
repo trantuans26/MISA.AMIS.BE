@@ -1,14 +1,14 @@
 ﻿namespace MISA.AMIS.Common
 {
     /// <summary>
-    /// Kết quả trả về của API Lấy danh sách nhân viên theo bộ lọc và phân trang
+    /// Kết quả trả về của API Lấy danh sách bản ghi theo bộ lọc và phân trang
     /// </summary>
-    public class PagingResult
+    public class PagingResult<T>
     {
         /// <summary>
         /// Danh sách nhân viên
         /// </summary>
-        public List<Employee>? Data { get; set; }
+        public List<T>? Data { get; set; }
 
         /// <summary>
         /// Tổng số bản ghi

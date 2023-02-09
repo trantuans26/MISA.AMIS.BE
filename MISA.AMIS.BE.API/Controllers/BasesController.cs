@@ -51,12 +51,46 @@ namespace MISA.AMIS.API
         }
 
         /// <summary>
+        /// API Lấy danh sách thông tin bản ghi theo bộ lọc và phân trang
+        /// </summary>
+        /// <param name="keyword">Mã bản ghi, tên bản ghi, số điện thoại</param>
+        /// <param name="pageSize">Số bản ghi muốn lấy</param>
+        /// <param name="pageNumber">Số chỉ mục của trang muốn lấy</param>
+        /// <returns>Danh sách thông tin bản ghi & tổng số trang và tổng số bản ghi</returns>
+        /// Created by: TTTuan (23/12/2022)
+        [HttpGet("filter")]
+        public IActionResult GetRecordsByFilter(
+            [FromQuery] string? keyword,
+            [FromQuery] int pageSize = 20,
+            [FromQuery] int pageNumber = 1
+        )
+        {
+            try
+            {
+                PagingResult<T> recordFilter = _baseBL.GetRecordsByFilter(keyword, pageSize, pageNumber);
+
+                return StatusCode(StatusCodes.Status200OK, recordFilter);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorResult
+                {
+                    ErrorCode = AMISErrorCode.Exception,
+                    DevMsg = AMISResources.DevMsg_Exception,
+                    UserMsg = AMISResources.UserMsg_Exception,
+                    MoreInfo = AMISResources.MoreInfo_Exception,
+                    TraceID = HttpContext.TraceIdentifier
+                });
+            }
+        }
+
+        /// <summary>
         /// API lấy thông tin chi tiết của 1 bản ghi theo ID
         /// </summary>
         /// <param name="id">ID của bản ghi</param>
         /// <returns>Thông tin của bản ghi theo ID</returns>
         /// Modified by: TTTuan 5/1/2023
-
         [HttpGet("{id}")]
         public IActionResult GetRecordByID([FromRoute] Guid id)
         {

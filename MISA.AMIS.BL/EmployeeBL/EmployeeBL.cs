@@ -64,7 +64,7 @@ namespace MISA.AMIS.BL
         /// </summary>
         /// <param name="worksheet">Sheet cần binding format</param>
         /// <param name="employees">Danh sách bản ghi</param>
-        /// Modified by: TTTuan 5/2/2023
+        /// Modified by: TTTuan 5/1/2023
         private void ImportDataTableExcel(Worksheet worksheet, IEnumerable<Employee> employees)
         {
             // Lấy ra các property có attribute name là ExcelColumnNameAttribute 
@@ -132,7 +132,7 @@ namespace MISA.AMIS.BL
         /// Xuất file excel danh sách bản ghi
         /// </summary>
         /// <returns>File excel danh sách bản ghi</returns>
-        /// Modified by: TTTuan 5/2/2023
+        /// Modified by: TTTuan 5/1/2023
         public MemoryStream ExportExcel(string? keyword)
         {
             /*
@@ -144,7 +144,6 @@ namespace MISA.AMIS.BL
             //Aspose.Cells.License cellsLicense = new Aspose.Cells.License();
             //cellsLicense.SetLicense("Aspose.Cells.lic");
 
-            // Tạo workbook
             var wb = new Workbook();
 
             // Tạo style mặc định cho workbook
@@ -187,6 +186,7 @@ namespace MISA.AMIS.BL
             var styleAlignCenter = wb.CreateStyle();
             styleAlignCenter.Copy(styleValue);
             styleAlignCenter.HorizontalAlignment = TextAlignmentType.Center;
+            style.VerticalAlignment = TextAlignmentType.Center;
 
             // Thêm style mặc định cho workbook
             wb.DefaultStyle = style;
@@ -252,19 +252,10 @@ namespace MISA.AMIS.BL
             wb.Save(stream, SaveFormat.Xlsx);
             stream.Position = 0;    // important!
 
-            return stream;
-        }
+            // Giải phóng workbook
+            wb.Dispose();
 
-        /// <summary>
-        /// API Lấy danh sách thông tin nhân viên theo bộ lọc và phân trang
-        /// </summary>
-        /// <param name="keyword">Mã nhân viên, tên nhân viên, số điện thoại</param>
-        /// <param name="pageSize">Số bản ghi muốn lấy</param>
-        /// <param name="pageNumber">Số chỉ mục của trang muốn lấy</param>
-        /// <returns>Danh sách thông tin nhân viên & tổng số trang và tổng số bản ghi</returns>
-        public PagingResult GetEmployeesByFilter(string? keyword, int pageSize, int pageNumber)
-        {
-            return _employeeDL.GetEmployeesByFilter(keyword, pageSize, pageNumber);
+            return stream;
         }
         #endregion
     }

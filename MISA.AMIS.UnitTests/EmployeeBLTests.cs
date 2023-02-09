@@ -49,7 +49,7 @@ namespace MISA.AMIS.API.UnitTests
         }
 
         /// <summary>
-        /// Thêm nhân viên thành công
+        /// Thêm nhân viên thất bại
         /// </summary>
         /// Modified by: TTTuan 15/1/2023
         [Test]

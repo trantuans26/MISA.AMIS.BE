@@ -69,6 +69,20 @@ namespace MISA.AMIS.BL
         }
 
         /// <summary>
+        /// Lấy danh sách thông tin bản ghi theo bộ lọc và phân trang
+        /// </summary>
+        /// <param name="keyword">Mã bản ghi, tên bản ghi, số điện thoại</param>
+        /// <param name="pageSize">Số bản ghi muốn lấy</param>
+        /// <param name="pageNumber">Số chỉ mục của trang muốn lấy</param>
+        /// <returns>Danh sách thông tin bản ghi & tổng số trang và tổng số bản ghi</returns>
+        /// Created by: TTTuan (23/12/2022)
+        public PagingResult<T> GetRecordsByFilter(string? keyword, int pageSize, int pageNumber)
+        {
+            return _baseDL.GetRecordsByFilter(keyword, pageSize, pageNumber);
+
+        }
+
+        /// <summary>
         /// API Lấy mã  mới
         /// </summary>
         /// <returns>Mã mới</returns>

@@ -268,6 +268,53 @@ namespace MISA.AMIS.DL
         }
 
         /// <summary>
+        /// Lấy danh sách thông tin bản ghi theo bộ lọc và phân trang
+        /// </summary>
+        /// <param name="keyword">Mã bản ghi, tên bản ghi, số điện thoại</param>
+        /// <param name="pageSize">Số bản ghi muốn lấy</param>
+        /// <param name="pageNumber">Số chỉ mục của trang muốn lấy</param>
+        /// <returns>Danh sách thông tin bản ghi & tổng số trang và tổng số bản ghi</returns>
+        /// Created by: TTTuan (23/12/2022)
+        public PagingResult<T> GetRecordsByFilter(string? keyword, int pageSize, int pageNumber)
+        {
+            // Chuẩn bị chuỗi kết nối
+            var connectionString = DataContext.ConnectionString;
+
+            // Chuẩn bị tên stored procedure
+            var storedProcedureName = string.Format(ProcedureNames.GET_BY_FILTER, typeof(T).Name);
+
+            // Chuẩn bị tham số đầu vào
+            var parameters = new DynamicParameters();
+            parameters.Add("$Keyword", keyword); ;
+            parameters.Add("$PageSize", pageSize);
+            parameters.Add("$PageNumber", pageNumber);
+
+            // Khai báo kết quả trả về
+            var count = 0;
+            var list = new List<T>();
+            var totalPage = 0;
+
+            // Khởi tạo kết nối đến DB
+            using (var mySqlConnection = new MySqlConnection(connectionString))
+            {
+                // Gọi vào DB để chạy stored ở trên
+                var records = mySqlConnection.QueryMultiple(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+
+                // Xử lý kết quả trả về
+                count = records.Read<int>().FirstOrDefault();
+                list = records.Read<T>().ToList();
+                totalPage = (int)Math.Ceiling((double)count / pageSize);
+            }
+
+            return new PagingResult<T>
+            {
+                Data = list,
+                TotalRecord = count,
+                TotalPage = totalPage
+            };
+        }
+
+        /// <summary>
         /// Thêm mới một bản ghi
         /// </summary>
         /// <param name="newRecord"></param>

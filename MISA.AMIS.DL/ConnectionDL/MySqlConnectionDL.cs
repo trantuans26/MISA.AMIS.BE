@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using MISA.AMIS.Common;
+using System.Transactions;
+using static Dapper.SqlMapper;
 
 namespace MISA.AMIS.DL
 {
@@ -49,6 +51,20 @@ namespace MISA.AMIS.DL
         }
 
         /// <summary>
+        /// Thực hiện một truy vấn, trả về dữ liệu được nhập dưới dạng <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="cnn"></param>
+        /// <param name="storedProcedureName"></param>
+        /// <param name="parameters"></param>
+        /// <param name="commandType"></param>
+        /// <returns>Một chuỗi dữ liệu của loại được cung cấp</returns>
+        public IEnumerable<T> Query<T>(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, CommandType commandType)
+        {
+            return cnn.Query<T>(storedProcedureName, parameters, null, true, null, commandType);
+        }
+
+        /// <summary>
         /// Thực thi truy vấn dòng đơn
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -62,5 +78,31 @@ namespace MISA.AMIS.DL
             return cnn.QueryFirstOrDefault<T>(storedProcedureName, parameters, null, null, commandType);
 
         }
+
+        /// <summary>
+        /// Thực thi một lệnh trả về nhiều tập hợp kết quả và truy cập lần lượt từng tập hợp.
+        /// </summary>
+        /// <param name="cnn"></param>
+        /// <param name="storedProcedureName"></param>
+        /// <param name="parameters"></param>
+        /// <param name="commandType"></param>
+        /// <returns>Một chuỗi dữ liệu của loại được cung cấp</returns>
+        public GridReader QueryMultiple(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, CommandType commandType)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Thực thi một lệnh trả về nhiều tập hợp kết quả và truy cập lần lượt từng tập hợp.
+        /// </summary>
+        /// <param name="cnn"></param>
+        /// <param name="storedProcedureName"></param>
+        /// <param name="parameters"></param>
+        /// <param name="commandType"></param>
+        /// <returns>Một chuỗi dữ liệu của loại được cung cấp</returns>
+        //public Dapper.SqlMapper.GridReader QueryMultiple(IDbConnection cnn, string storedProcedureName, DynamicParameters parameters, CommandType commandType)
+        //{
+        //    cnn.QueryMultiple(storedProcedureName, parameters, null, null, commandType);
+        //}
     }
 }

@@ -195,14 +195,17 @@ namespace MISA.AMIS.DL
             // Chuẩn bị chuỗi kết nối
             var connectionString = DataContext.ConnectionString;
 
+            // Chuẩn bị tham số đầu
+            var parameters = new DynamicParameters();
+
             // Khai báo kết quả trả về
             var records = default(IEnumerable<T>);
 
             // Khởi tạo kết nối đến DB
-            using (var connection = new MySqlConnection(connectionString))
+            using (var connection = _connectionDL.InitConnection(connectionString))
             {
                 // Thực hiện gọi vào db
-                records = connection.Query<T>(storedProcedure, commandType: System.Data.CommandType.StoredProcedure);
+                records = _connectionDL.Query<T>(connection, storedProcedure, parameters, commandType: System.Data.CommandType.StoredProcedure);
             }
 
             return records;
@@ -295,7 +298,7 @@ namespace MISA.AMIS.DL
             var totalPage = 0;
 
             // Khởi tạo kết nối đến DB
-            using (var mySqlConnection = new MySqlConnection(connectionString))
+            using (var mySqlConnection = _connectionDL.InitConnection(connectionString))
             {
                 // Gọi vào DB để chạy stored ở trên
                 var records = mySqlConnection.QueryMultiple(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);

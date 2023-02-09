@@ -39,10 +39,10 @@ namespace MISA.AMIS.DL
             var employees = default(IEnumerable<Employee>);
 
             // Khởi tạo kết nối đến DB
-            using (var connection = new MySqlConnection(connectionString))
+            using (var connection = _connectionDL.InitConnection(connectionString))
             {
                 // Thực hiện gọi vào db
-                employees = connection.Query<Employee>(storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
+                employees = _connectionDL.Query<Employee>(connection, storedProcedureName, parameters, commandType: System.Data.CommandType.StoredProcedure);
             }
 
             return employees;

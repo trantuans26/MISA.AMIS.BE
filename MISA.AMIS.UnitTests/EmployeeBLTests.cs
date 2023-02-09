@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MISA.AMIS.Common;
-using MISA.AMIS.BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using MISA.AMIS.DL;
 using NSubstitute;
-using MISA.AMIS.Common.Resourcses;
 
-namespace MISA.AMIS.API.UnitTests
+namespace MISA.AMIS.BL.UnitTests
 {
     public class EmployeeBLTests
     {

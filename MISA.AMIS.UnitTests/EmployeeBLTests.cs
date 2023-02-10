@@ -40,7 +40,7 @@ namespace MISA.AMIS.BL.UnitTests
             var expectedResult = (int)StatusResponse.Done;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
@@ -73,7 +73,7 @@ namespace MISA.AMIS.BL.UnitTests
             var expectedResult = (int)StatusResponse.Failed;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
@@ -109,7 +109,7 @@ namespace MISA.AMIS.BL.UnitTests
             };
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Data?.MoreInfo, Is.EqualTo(expectedResult));
@@ -145,7 +145,7 @@ namespace MISA.AMIS.BL.UnitTests
             };
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Data?.MoreInfo, Is.EqualTo(expectedResult));
@@ -181,7 +181,7 @@ namespace MISA.AMIS.BL.UnitTests
             };
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Data?.MoreInfo, Is.EqualTo(expectedResult));
@@ -217,7 +217,7 @@ namespace MISA.AMIS.BL.UnitTests
             };
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Data?.MoreInfo, Is.EqualTo(expectedResult));
@@ -252,7 +252,7 @@ namespace MISA.AMIS.BL.UnitTests
 
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Success, Is.EqualTo(expectedResult));
@@ -289,7 +289,7 @@ namespace MISA.AMIS.BL.UnitTests
             }; 
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(expectedResult, Is.EqualTo(actualResult.Data?.MoreInfo));
@@ -325,7 +325,7 @@ namespace MISA.AMIS.BL.UnitTests
             };
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(expectedResult, Is.EqualTo(actualResult.Data?.MoreInfo));
@@ -362,7 +362,7 @@ namespace MISA.AMIS.BL.UnitTests
             };
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(expectedResult, Is.EqualTo(actualResult.Data?.MoreInfo));
@@ -396,7 +396,7 @@ namespace MISA.AMIS.BL.UnitTests
             var expectedResult = (int) StatusResponse.Done;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = employeeBL.InsertRecord(e);
+            var actualResult = employeeBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(expectedResult, Is.EqualTo(actualResult.Success));
@@ -429,7 +429,7 @@ namespace MISA.AMIS.BL.UnitTests
             var expectedResult = (int)StatusResponse.DuplicateCode;
 
             // Act - Gọi vào hàm cần test
-            ServiceResponse actualResult = baseBL.InsertRecord(e);
+            var actualResult = baseBL.InsertRecord(e);
 
             // Assert - Kiểm tra kết quả mong muốn và kết quả thực tế
             Assert.That(actualResult.Success, Is.EqualTo(expectedResult));

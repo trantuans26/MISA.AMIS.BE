@@ -122,9 +122,9 @@ namespace MISA.AMIS.API
         /// Created by: TTTuan (23/12/2022)
         [HttpGet("newCode")]
         public IActionResult GetNewCode()
-        {
+        {   
             try
-            {
+                {
                 var newCode = _baseBL.GetNewCode();
 
                 // Xử lý kết quả trả về
@@ -164,7 +164,7 @@ namespace MISA.AMIS.API
                 // Xử lý kết quả trả về
                 if (result.Success == (int)StatusResponse.Done)
                 {
-                    return StatusCode(StatusCodes.Status200OK);
+                    return StatusCode(StatusCodes.Status201Created);
                 }
                 else if (result.Success == (int)StatusResponse.Invalid || result.Success == (int)StatusResponse.DuplicateCode)
                 {

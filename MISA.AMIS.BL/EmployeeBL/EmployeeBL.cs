@@ -136,10 +136,9 @@ namespace MISA.AMIS.BL
         public MemoryStream ExportExcel(string? keyword)
         {
             /*
-             * Uncomment the code below when you have purchased license
-             * for Aspose.Cells. You need to deploy the license in the
-             * same folder as your executable, alternatively you can add
-             * the license file as an embedded resource to your project.
+            Bỏ comment code bên dưới khi đã mua bản quyền cho Aspose.Cells. 
+            Cần triển khai giấy phép trong cùng folder với code, ngoài ra,
+            có thể thêm file bản quyền dưới dạng tài nguyên nhúng vào project.
             */
             //Aspose.Cells.License cellsLicense = new Aspose.Cells.License();
             //cellsLicense.SetLicense("Aspose.Cells.lic");

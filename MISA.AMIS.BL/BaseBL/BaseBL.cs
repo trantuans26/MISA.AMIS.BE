@@ -216,7 +216,7 @@ namespace MISA.AMIS.BL
                 }
 
                 var maxLengthAttribute = (MaxLengthAttribute?)Attribute.GetCustomAttribute(property, typeof(MaxLengthAttribute));
-                if (maxLengthAttribute != null && propertyValue.ToString().Length > maxLengthAttribute.MaxLength)
+                if (maxLengthAttribute != null && propertyValue.ToString().Trim().Length > maxLengthAttribute.MaxLength)
                 {
                     errorMessages.Add(maxLengthAttribute.ErrorMessage);
                 }

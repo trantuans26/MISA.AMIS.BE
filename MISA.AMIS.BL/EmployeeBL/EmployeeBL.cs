@@ -224,7 +224,6 @@ namespace MISA.AMIS.BL
             for(var i = 0; i < columnLength; i++)
             {
                 worksheet.Cells[2, i].SetStyle(styleHeader);
-
             }
 
             // Thiết lập style cho nội dung bảng

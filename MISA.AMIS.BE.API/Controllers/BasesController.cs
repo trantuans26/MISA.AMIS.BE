@@ -142,7 +142,7 @@ namespace MISA.AMIS.API
                     ErrorCode = AMISErrorCode.Exception,
                     DevMsg = AMISResources.DevMsg_Exception,
                     UserMsg = AMISResources.UserMsg_Exception,
-                    MoreInfo = "https://openapi.com.vn/cukcuk/error-code/0",
+                    MoreInfo = AMISResources.MoreInfo_Exception,
                     TraceID = HttpContext.TraceIdentifier
                 });
             }

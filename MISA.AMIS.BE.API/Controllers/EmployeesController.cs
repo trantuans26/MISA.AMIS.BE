@@ -24,9 +24,10 @@ namespace MISA.AMIS.API
 
         #region Method
         /// <summary>
-        /// Xuất file excel danh sách bản ghi
+        /// Xuất file excel danh sách nhân viên
         /// </summary>
-        /// <returns>File excel danh sách bản ghi</returns>
+        /// <param name="keyword"></param>
+        /// <returns>File excel</returns>
         /// Modified by: TTTuan (5/1/2022)
         [HttpGet("export")]
         public IActionResult ExportExcel([FromQuery] string? keyword)

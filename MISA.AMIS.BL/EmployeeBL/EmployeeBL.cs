@@ -129,10 +129,11 @@ namespace MISA.AMIS.BL
         }
 
         /// <summary>
-        /// Xuất file excel danh sách bản ghi
+        /// Xuất file excel danh sách nhân viên
         /// </summary>
-        /// <returns>File excel danh sách bản ghi</returns>
-        /// Modified by: TTTuan 5/1/2023
+        /// <param name="keyword"></param>
+        /// <returns>File excel</returns>
+        /// Modified by: TTTuan (5/1/2022)
         public MemoryStream ExportExcel(string? keyword)
         {
             /*
